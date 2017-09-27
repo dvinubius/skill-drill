@@ -14,20 +14,17 @@
       </div>
       <div id='feedbackWrong'>
         <img src='images/sign-red-error-icon-1.png'>
-      </div>
+      </div>			
       <div id='questionFrame'>
         <button id='gameModeButton' type='button' onclick="changeGameMode()">Mode</button>
         <p id='question'>[6x7]</p>
-      </div>
-      <div id='instruction'>
-        <p>Click on the correct answer!</p>
-      </div>
+      </div>      
       <div id='choices'>
-        <div id='choice1' onclick="clickOnChoice(this)">35</div>
-        <div id='choice2' onclick="clickOnChoice(this)">40</div>
-        <div id='choice3' onclick="clickOnChoice(this)">33</div>
-        <div id='choice4' onclick="clickOnChoice(this)">43</div>
-      </div>
+        <div onclick="clickOnChoice(this)"><p>35</p></div>
+        <div onclick="clickOnChoice(this)"><p>15</p></div>
+        <div onclick="clickOnChoice(this)"><p>52</p></div>
+        <div onclick="clickOnChoice(this)"><p>65</p></div>
+      </div>			
       <button id='start_reset' type='button' onclick="clickOnStart_Reset()">[Start Game]</button>
       <div id='timer'>
         <p>Time: <span id='timeValue'>[60]</span> sec</p>

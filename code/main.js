@@ -55,7 +55,7 @@ function initGlobals() {
   choices.reset = function() {
     squares = choices.children;
     for (var i=0; i<squares.length; i++) {
-      squares[i].textContent = '';
+      squares[i].querySelector('p').textContent = '';
       squares[i].classList.add('resetChoice');
     }
   }
@@ -74,7 +74,7 @@ function resetGame() {
   countDown = 60;
   window.clearInterval(timer);
   gameState = 'ready';
-  question.innerHTML = (gameMode == 'multiply') ? '... * ...' : '... &radic; ...';
+  question.innerHTML = (gameMode == 'multiply') ? '... x ...' : '... &radic; ...';
   // button is visible when gameState is 'ready'
   modeButton.style.display = 'inline-block';
   question.classList.add('inReadyState');
@@ -101,6 +101,7 @@ function finishGame() {
   gameOverDisplay.style.visibility = 'visible';
   scoreDisplay.style.visibility = 'hidden';
   timeDisplay.style.visibility = 'hidden';
+	choices.reset();
   start_reset_button.innerHTML = 'Play Again';
 }
 
@@ -155,7 +156,7 @@ function changeGameMode() {
   } else {
     gameMode = 'multiply';
   }
-  question.innerHTML = (gameMode == 'multiply') ? '... * ...' : '... &radic; ...';
+  question.innerHTML = (gameMode == 'multiply') ? '... x ...' : '... &radic; ...';
 }
 
 // AUX function that generates a question of multiplication of 2 integers
@@ -188,9 +189,9 @@ function initChoicesMultiplyQuestion() {
   var squares = choices.children;
   for (var i=0; i<squares.length; i++) {
     if (i == correctSquare) {
-      squares[i].textContent =  correctAnswer;
+      squares[i].querySelector('p').textContent =  correctAnswer;
     } else {
-      squares[i].textContent = Math.round(Math.random() * 100);
+      squares[i].querySelector('p').textContent = Math.round(Math.random() * 100);
     }
   }
 }
@@ -204,9 +205,9 @@ function initChoicesSqrtQuestion() {
   var squares = choices.children;
   for (var i=0; i<squares.length; i++) {
     if (i == correctSquare) {
-      squares[i].textContent =  correctAnswer;
+      squares[i].querySelector('p').textContent =  correctAnswer;
     } else {
-      squares[i].textContent = (Math.random() * (25+1)).toFixed(2);
+      squares[i].querySelector('p').textContent = (Math.random() * (25+1)).toFixed(2);
     }
   }
 }

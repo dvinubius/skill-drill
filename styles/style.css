@@ -1,12 +1,12 @@
 body {
-  /*background-color: linear-gradient(70deg, blue, pink);*/
+  /*for small devices. see media query for changes for larger devices*/
   font-size:16px;
 }
 
 #panel {
-  width: 750px;
-  height: 600px;
-  margin: 50px auto;
+  width: 18em;
+  height: 20em;
+  margin: 2em auto;
   background-color: hsl(183, 49%, 66%);
   position: relative;
   padding: 20px;
@@ -23,48 +23,71 @@ body {
   /* no text should in the UI be selected by the user */
   user-select: none;
 }
-
 #panel div {
   border-radius: 5px;
-  padding-bottom: 0;
+  padding: 0;
+}
+
+#timer, #score {
+  height:1.8em;
+  width:7em;  
+  position:absolute;
+  top:5%;
+  background-color: hsl(48, 87%, 58%);
+  box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
+
+  line-height: 1.8em;
+  font-size:1em;
+
+  visibility: hidden;
+}
+#timer {
+  left: 20px;
+}
+#score {
+  right: 20px;
+}
+#timer p, #score p {
+  margin:0;
 }
 
 #questionFrame {
-  width: 500px;
-  height: 200px;
-  margin-top: 20px;
+  width: 19em;
+  height: 7em;
+  margin-top: 3em;
   background-color: hsl(48, 87%, 58%);
   box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
   text-align: center;
 }
 #questionFrame p {
-  font-size: 7em;
-  line-height: 1.5em;
-  margin-top: 0.1em;
+  font-size: 4em;
+  line-height: 1em;
+  margin-top: 0.35em;
   margin-bottom: 0;
 }
 #questionFrame p.inReadyState {
-  font-size: 5em;
+  font-size: 2.5em;
   margin-top: 0;
   margin-bottom: 0;
   line-height: 1.5em;
+	opacity: 0.4;
+	letter-spacing: 0.2em;
 }
 
 #gameModeButton {
   /* displayed only when needed - in 'ready' gameState*/
   display:none;
 
-  width:100px;
-  height: 50px;
+  width:6em;
+  height: 1.8em;
   margin-top: 20px;
-  margin-bottom: 0;
   color: hsl(189, 81%, 30%);
   background-color: hsl(48, 67%, 88%);
   border: 2px solid hsl(48, 77%, 48%);
   border-radius: 5px;
   box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
-  line-height: 1.7em;
-  font-size:1.4em;
+  line-height: 1.5em;
+  font-size: 1em;
   font-weight: 600;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -75,42 +98,32 @@ body {
   /*y offset compensates for translate and for increase in spread*/
   cursor: pointer;
 }
-
-#instruction {
-  width: 360px;
-  height: 70px;
-  color: hsl(189, 81%, 30%);
-  background-color: hsl(48, 67%, 88%);
-  border: 1px solid hsl(48, 87%, 58%);
-  /*box-shadow: 0px 5px 5px hsl(48, 67%, 38%);*/
-  text-align: center;
-  font-size:1.5em;
-  font-family: Arial;
-  line-height: 1.1em;
-  opacity: 0.75;
-}
-#instruction:hover {
-  cursor: default;
+#gameModeButton:focus {
+	outline:none;
 }
 
 #choices {
-  width: 500px;
-  height: 110px;
+  width: 19em;
+  height: 4em;
   display:flex;
   flex-flow: row;
-  justify-content: space-between;
+  justify-content: space-between;	
 }
 #choices div {
-  width: 100px;
-  height: 100px;
-  background-color: hsl(0, 0%, 95%);
-  color: hsl(0, 0%, 30%);
-  box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
-  text-align: center;
-  font-weight: bolder;
-  line-height: 4.3em;
-  font-size: 1.3em;
+  width: 4em;
+  height: 4em;	
+  background-color: hsl(0, 0%, 95%);  
+  box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);  
   transition: background-color 0.3s, box-shadow 0.2s, transform 0.1s;
+}
+#choices p {
+	color: hsl(0, 0%, 30%);
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: 1.1em;
+  font-weight: bolder;
+  line-height: 3.5em;
 }
  #choices div:hover {
    background-color: hsl(0, 0%, 85%);
@@ -130,16 +143,17 @@ body {
  }
 
 #start_reset {
-  width:170px;
-  height: 60px;
-  margin-bottom: 10px;
+  width:8em;
+  height: 1.8em;
+	margin-top:1em;
+	margin-bottom: 1.5em;
   color: hsl(189, 81%, 30%);
   background-color: hsl(48, 67%, 88%);
   border: 2px solid hsl(48, 77%, 48%);
   border-radius: 5px;
   box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
-  line-height: 2em;
-  font-size:1.5em;
+  line-height: 1.5em;
+  font-size:1em;
   font-weight: 600;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -150,30 +164,12 @@ body {
   /*y offset compensates for translate and for increase in spread*/
   cursor: pointer;
 }
+#start_reset:focus {
+	outline:none;
+}
 
-#timer, #score {
-  height:60px;
-  width:200px;
-  margin-bottom: 10px;
-  position:absolute;
-  bottom: 20px;
-  background-color: hsl(48, 87%, 58%);
-  box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
 
-  line-height: 2.8em;
-  font-size:1.3em;
 
-  visibility: hidden;
-}
-#timer {
-  left: 20px;
-}
-#score {
-  right: 20px;
-}
-#timer p, #score p {
-  margin:0;
-}
 #finalScore {
   font-family: monospace;
   font-size: 1.1em;
@@ -181,45 +177,45 @@ body {
 
 #feedbackCorrect, #feedbackWrong {
   position:absolute;
-  top: 45%;
+  top: 29%;		
   visibility: hidden;
 }
 #feedbackCorrect img, #feedbackWrong img {
-  height:60px;
-  width:60px;
+  height:2.6em;
+  width:2.6em;
   border-radius: 50%;
 }
 
 #feedbackCorrect {
-  right: 140px;
+  right: 1.7em;
 }
 #feedbackWrong {
-  left: 140px;
+  left: 1.8em;
 }
 
 #gameOver {
-  width: 600px;
-  height: 300px;
+  width: 17em;
+  height: 8em;
   background: radial-gradient(hsl(48, 87%, 58%), hsl(183, 49%, 66%));
   /*background-color: hsl(86, 50%, 48%);*/
   border: 1px solid black;
   border-radius: 10px;
   position: absolute;
-  top: 20%;
+  top: 16%;
   left: 50%;
   transform: translate(-50%, 0);
 
-  visibility: hidden;
+	visibility: hidden;
 }
 #gameOver p {
   text-transform: uppercase;
   font-family: Arial;
-  font-size: 3.4em;
+  font-size: 1.5em;
 }
 
 /* for smartphones */
-/*@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {
   body {
     font-size: 24px;
   }
-}*/
+}
