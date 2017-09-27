@@ -1,9 +1,11 @@
 var gameState; // 'ready', 'playing', 'over'
+var gameMode; // 'multiply', 'sqrt'
 
 var correctAnswer;
 
 var countDown;
 var timer;
+var questionFrame;
 var question;
 var choices;
 var start_reset_button;
@@ -23,7 +25,11 @@ window.onload = () => {
 
 /* Init references to the DOM*/
 function initGlobals() {
+  gameMode = 'multiply';
+
   question = document.getElementById('question');
+  questionFrame = document.getElementById('questionFrame');
+  modeButton = document.getElementById('gameModeButton');
   choices = document.getElementById('choices');
   start_reset_button = document.getElementById('start_reset');
   scoreDisplay = document.getElementById('score');
@@ -68,7 +74,10 @@ function resetGame() {
   countDown = 60;
   window.clearInterval(timer);
   gameState = 'ready';
-  question.textContent = '';
+  question.innerHTML = (gameMode == 'multiply') ? '... * ...' : '... &radic; ...';
+  // button is visible when gameState is 'ready'
+  modeButton.style.display = 'inline-block';
+  question.classList.add('inReadyState');
   choices.reset();
   start_reset_button.innerHTML = 'Start Game';
   scoreDisplay.reset();
@@ -77,6 +86,8 @@ function resetGame() {
 }
 
 function startGame() {
+  gameModeButton.style.display = 'none';
+  question.classList.remove('inReadyState');
   choices.start();
   nextQuestion();
   start_reset_button.innerHTML = 'Reset Game';
@@ -96,11 +107,9 @@ function finishGame() {
 /* Generate a new question and init UI (question & choices) with the values */
 function nextQuestion() {
   // generate question
-// randomMultiplyQuestion();
-  randomSqrtQuestion();
+  gameMode == 'multiply' ? randomMultiplyQuestion() : randomSqrtQuestion();
   // set the choices in UI
-//  initChoicesMultiplyQuestion();
-  initChoicesSqrtQuestion();
+  gameMode == 'multiply' ? initChoicesMultiplyQuestion() : initChoicesSqrtQuestion();
 }
 
 // Starts the countdown. When finished, finishes the game
@@ -138,6 +147,17 @@ function clickOnChoice(target) {
   };
 }
 
+// Handler for gameModeButton clicks
+// toggles gameModes
+function changeGameMode() {
+  if (gameMode == 'multiply') {
+    gameMode = 'sqrt';
+  } else {
+    gameMode = 'multiply';
+  }
+  question.innerHTML = (gameMode == 'multiply') ? '... * ...' : '... &radic; ...';
+}
+
 // AUX function that generates a question of multiplication of 2 integers
 // between 1 and 10 (including). Also sets the global correctAnswer and
 // loads the text into the UI
@@ -148,7 +168,7 @@ function randomMultiplyQuestion() {
   var qText = f1+'x'+f2;
   correctAnswer = f1*f2;
   // set question in UI
-  question.textContent = qText;
+  question.innerHTML = qText;
 }
 // AUX function that generates a question of square root for an integer
 // between 0 and 200. Also sets the global correctAnswer and
