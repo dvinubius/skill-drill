@@ -20,6 +20,7 @@ var finalScoreDisplay;
 
 window.onload = () => {
   initGlobals();
+  initEvents();
   resetGame();
 }
 
@@ -210,4 +211,16 @@ function initChoicesSqrtQuestion() {
       squares[i].querySelector('p').textContent = (Math.random() * (25+1)).toFixed(2);
     }
   }
+}
+
+/*Eventhandling not specified in markup*/
+function initEvents() {
+  // make elements recover from being activated via click
+  // (especially useful for mobile interaction,
+  // where the active status just remains there after the tap)
+  document.addEventListener('click', function(e) {
+     if(document.activeElement.toString() == '[object HTMLButtonElement]') {
+       document.activeElement.blur();
+     }
+   });
 }
