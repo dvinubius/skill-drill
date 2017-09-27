@@ -29,17 +29,53 @@ body {
   padding-bottom: 0;
 }
 
-#question {
+#questionFrame {
   width: 500px;
   height: 200px;
   margin-top: 20px;
   background-color: hsl(48, 87%, 58%);
   box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
-
   text-align: center;
+}
+#questionFrame p {
   font-size: 7em;
   line-height: 1.5em;
+  margin-top: 0.1em;
+  margin-bottom: 0;
 }
+#questionFrame p.inReadyState {
+  font-size: 5em;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.5em;
+}
+
+#gameModeButton {
+  /* displayed only when needed - in 'ready' gameState*/
+  display:none;
+
+  width:100px;
+  height: 50px;
+  margin-top: 20px;
+  margin-bottom: 0;
+  color: hsl(189, 81%, 30%);
+  background-color: hsl(48, 67%, 88%);
+  border: 2px solid hsl(48, 77%, 48%);
+  border-radius: 5px;
+  box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
+  line-height: 1.7em;
+  font-size:1.4em;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#gameModeButton:hover {
+  transform: translate(0,-2px);
+  /* translate lifts button off the background*/
+  box-shadow: 0px 16px 8px -8px hsl(72, 52%, 19%);
+  /*y offset compensates for translate and for increase in spread*/
+  cursor: pointer;
+}
+
 #instruction {
   width: 360px;
   height: 70px;
@@ -99,7 +135,7 @@ body {
   margin-bottom: 10px;
   color: hsl(189, 81%, 30%);
   background-color: hsl(48, 67%, 88%);
-  border: 2px solid hsl(48, 87%, 58%);
+  border: 2px solid hsl(48, 77%, 48%);
   border-radius: 5px;
   box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
   line-height: 2em;
@@ -180,3 +216,10 @@ body {
   font-family: Arial;
   font-size: 3.4em;
 }
+
+/* for smartphones */
+/*@media screen and (min-width: 768px) {
+  body {
+    font-size: 24px;
+  }
+}*/
