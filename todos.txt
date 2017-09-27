@@ -1,0 +1,17 @@
+1. Functionality
+
+A.
+add option in the ui : multiplication / sqrt
+add option in the UI : difficulty level -> adjust generation of wrong answers, making them closer to the right one.
+
+B.
+remember high score and show in UI in gameState == 'over'
+
+C.
+Upload of high score (button in gameOverDisplay). There, nickname.
++ infoModal (with URL?) to see online high scores. If URL, large ranking possible. If not, just the top 10.
+
+
+
+2. Usability
+make choice boxes unresponsive in gameState == 'over'

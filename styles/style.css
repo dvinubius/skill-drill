@@ -20,6 +20,8 @@ body {
 
   /* applies to all containers inside */
   text-align: center;
+  /* no text should in the UI be selected by the user */
+  user-select: none;
 }
 
 #panel div {
@@ -32,23 +34,29 @@ body {
   height: 200px;
   margin-top: 20px;
   background-color: hsl(48, 87%, 58%);
-  box-shadow: 0px 5px 5px hsl(48, 87%, 28%);
+  box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
 
   text-align: center;
   font-size: 7em;
   line-height: 1.5em;
 }
 #instruction {
-  width: 500px;
+  width: 360px;
   height: 70px;
+  color: hsl(189, 81%, 30%);
   background-color: hsl(48, 67%, 88%);
-  box-shadow: 0px 5px 5px hsl(48, 67%, 38%);
+  border: 1px solid hsl(48, 87%, 58%);
+  /*box-shadow: 0px 5px 5px hsl(48, 67%, 38%);*/
   text-align: center;
   font-size:1.5em;
   font-family: Arial;
-  line-height: 1.2em;
-  color: hsl(189, 81%, 20%);
+  line-height: 1.1em;
+  opacity: 0.75;
 }
+#instruction:hover {
+  cursor: default;
+}
+
 #choices {
   width: 500px;
   height: 110px;
@@ -61,33 +69,49 @@ body {
   height: 100px;
   background-color: hsl(0, 0%, 95%);
   color: hsl(0, 0%, 30%);
-  box-shadow: 0px 5px 5px hsl(0, 0%, 40%);
+  box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
   text-align: center;
   font-weight: bolder;
   line-height: 4.3em;
   font-size: 1.3em;
+  transition: background-color 0.3s, box-shadow 0.2s, transform 0.1s;
 }
  #choices div:hover {
    background-color: hsl(0, 0%, 85%);
    cursor:pointer;
  }
+ #choices div:active {
+   transform: scale(0.98);
+   box-shadow: none;
+ }
  #choices div.resetChoice:hover {
    cursor: default;
    background-color: hsl(0, 0%, 95%);
  }
+ #choices div.resetChoice:active {
+   box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
+   transform: none;
+ }
 
 #start_reset {
-  width:160px;
+  width:170px;
   height: 60px;
   margin-bottom: 10px;
-  color: hsl(85, 100%, 90%);
-  background-color: hsl(86, 50%, 48%);
-  box-shadow: 0px 5px 5px hsl(72, 62%, 13%);
+  color: hsl(189, 81%, 30%);
+  background-color: hsl(48, 67%, 88%);
+  border: 2px solid hsl(48, 87%, 58%);
+  border-radius: 5px;
+  box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
   line-height: 2em;
-  font-size:1.4em;
+  font-size:1.5em;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 #start_reset:hover {
-  background-color: hsl(86, 45%, 58%);
+  transform: translate(0,-2px);
+  /* translate lifts button off the background*/
+  box-shadow: 0px 16px 8px -8px hsl(72, 52%, 19%);
+  /*y offset compensates for translate and for increase in spread*/
   cursor: pointer;
 }
 
@@ -98,7 +122,7 @@ body {
   position:absolute;
   bottom: 20px;
   background-color: hsl(48, 87%, 58%);
-  box-shadow: 0px 5px 5px hsl(48, 87%, 28%);
+  box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
 
   line-height: 2.8em;
   font-size:1.3em;
@@ -114,29 +138,36 @@ body {
 #timer p, #score p {
   margin:0;
 }
+#finalScore {
+  font-family: monospace;
+  font-size: 1.1em;
+}
 
 #feedbackCorrect, #feedbackWrong {
   position:absolute;
-  top: 10%;
+  top: 45%;
   visibility: hidden;
 }
 #feedbackCorrect img, #feedbackWrong img {
-  height:120px;
-  width:120px;
+  height:60px;
+  width:60px;
   border-radius: 50%;
 }
 
 #feedbackCorrect {
-  right: 10px;
+  right: 140px;
 }
 #feedbackWrong {
-  left: 10px;
+  left: 140px;
 }
 
 #gameOver {
   width: 600px;
   height: 300px;
-  background: linear-gradient(to top, hsl(120, 20%, 25%), hsl(170, 40%, 50%));
+  background: radial-gradient(hsl(48, 87%, 58%), hsl(183, 49%, 66%));
+  /*background-color: hsl(86, 50%, 48%);*/
+  border: 1px solid black;
+  border-radius: 10px;
   position: absolute;
   top: 20%;
   left: 50%;
@@ -145,7 +176,6 @@ body {
   visibility: hidden;
 }
 #gameOver p {
-  color:hsl(0, 0%, 85%);
   text-transform: uppercase;
   font-family: Arial;
   font-size: 3.4em;
