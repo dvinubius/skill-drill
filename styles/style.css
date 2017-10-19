@@ -59,9 +59,10 @@ body {
 	align-self: center;
   width:10em;
   height: 2.5em;
+	overflow: hidden;
 	margin: 0;
-  color: var(--colButtons);
-  background-color: var(--bgButtons);
+  color: hsl(180, 90%, 90%);
+  background-color: hsl(7, 75%, 50%);
   border: 2px solid var(--colBorderButtons);
 	border-radius: 10px;
   box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
@@ -72,68 +73,40 @@ body {
   transition: transform 0.2s,
 							box-shadow 0.2s,
 							background-color 0.2s ease-in-out,
-							opacity 0.5s ease-in-out;
+							opacity 0.4s ease-in-out,
+							height 0.4s ease-in-out;
+	animation: levitate 0.6s ease-in-out infinite;
+	position: relative;	
+}
+@keyframes levitate {
+	0% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }	
+	50% { box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%); 
+				transform: scaleX(1.007);}	
+	100% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }		
 }
 
-/* This element will have a .touchy or .clicky class attached, depending on
-   the user touching or clicking on the device. For small devices we only
-   define touchy behavior. With prevent Default implemented, there will be
-   no click emulations, and thus no :focus or :hover states.
-   See media queries for other cases.
- */
-#intro.touchy:active {
-  transform: scale(0.85);  
-	/* makes the button "sink"*/
+#intro:hover {
+	cursor: pointer;
 }
-#intro.touchy:focus {
+#intro:active {
+}
+#intro:focus {
   outline:none;
 }
-
-@keyframes levitate {
-	0% { top: 0;
-		 	 transform: scale(0.5);}
-	100% {top: calc(-5.5 * 1em);}
+#intro.away {
+	animation: none;
+	opacity: 0;
+	height: 0;
 }
+
+
+
 
 @media screen and (min-width: 768px) {
 	#intro{
 	  line-height: var(--buttonLineHeight);
 	  font-size: 1.6em;
-	}
-
-	/* This element will have a .touchy or .clicky class attached, depending on
-     the user touching or clicking on the device.
-     The behaviour is different for touches and clicks. There will be no
-     clicks emulated by the browser in touch events.
-   */
-
-   /* lift the button*/
-  #intro.clicky:hover {
-    transform: translate(0,-4px);
-    /* translate lifts button off the background*/
-    box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
-    /*y offset compensates for translate and for increase in spread*/
-    cursor: pointer;
-  }
-  /* confirm the action */
-  #intro.clicky:active {
-    transform: translate(0,-5px) scaleX(1.06);
-  }
-  #intro.clicky:focus {
-  	outline:none;
-  }
-
-  /* .touchy:active stays the same as for small devices: make the button "sink".
-  {
-    transform: scale(0.90);
-    box-shadow: none;
-  } */
-  #intro.touchy:hover {
-    /* nothing particular */
-  }
-  #intro.touchy:focus {
-    outline: none;
-  }
+	}   
 }
 
 
@@ -146,6 +119,7 @@ body {
 	max-width: 500px;
 	box-sizing: border-box;
   padding: 1em 1em;
+	overflow: hidden !important;
   display:flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -155,11 +129,19 @@ body {
   font-family: var(--funnyFontFam);
 
   /* applies to all containers inside */
-  text-align: center;
-	
+  text-align: center;		
+		
+	animation: appear 0.5s linear 1;
+}
+#panel.hidden {
 	/*	at first, none of it is visible */
 	display: none;
 }
+@keyframes appear {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
 #panel div {
 	width: 100%;
   border-radius: 5px;

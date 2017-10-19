@@ -293,7 +293,7 @@ function initEvents() {
 function beginExperience(ev) {
   ev.preventDefault();
 			
-	introButton.style.opacity = '0';
+	introButton.classList.add('away');
 	
 	var goFull = ev.type == 'touchend'; // touch
 	
@@ -301,13 +301,13 @@ function beginExperience(ev) {
 		setTimeout(function() {
 			// Launch fullscreen only for browsers that support it!
 			launchIntoFullscreen(document.documentElement); 
-		}, 750);	
+		}, 550);	
 	}	
 	
 	setTimeout(function() {
 		introButton.style.display = 'none';
-		document.getElementById('panel').style.display = 'flex';
-	}, 1000);	
+		document.getElementById('panel').classList.remove('hidden');
+	}, 600);	
 }
 
 // Find the right method, call on correct element
