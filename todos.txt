@@ -14,9 +14,49 @@ When uploading, prompt for nickname or so.
 See online high scores from other people. If within other page (URL), larger ranking can be shown possible.
 If only within this page (info-modal), show just the top 10.
 
-
+D. Add app manifest, add service worker
+  -> even if service worker does nothing
+  -> get a splash screen,  proper theme color, background-color, name, icon etc.
+  -> display proper offline message page.
 
 2. Usability
-timeDisplay more visible, turning red as counter approaches 0;
 
-bigger size for all elements, esp. for xs devices
+Go directly Full Screen for best viewing experience
+Buttons (start_reset, mode) trigger click even when held down longer
+    - > (default doesn't emulate a click then)
+    - > (see 3.A)
+
+
+
+
+
+3. CLEAN CODE, DESIGN PATTERNS
+
+At the moment, page works for both touch and click interfaces, with dynamic detection.
+Style of start_reset_button adapts and changes according to user interaction type (touch or click).
+So do the choice boxes.
+
+The differences in behavior can be implemented 2 ways:
+ A. use prevent Default in tap handling and deactivate all click emulations.
+    No :hover or :active states occur anymore, so in css we cannot use those for reacting on clicks/taps.
+    SOLUTION: need explicit tap handling, also click handling, and include there the adding/removing of
+    css classes with transitions/transformations and such.
+    Style reactions to click/tap events must be undone explicitly.
+
+    OBS.:  buttons still get :focus states enabled, so careful with the css there.
+
+ B. don't use prevent default in tap handling. Click emulations still take place.
+    :hover and :active states can be used, but must be handled separately in a touch vs click situation.
+    SOLUTION:
+      1. handle the touch/click situation in a global variable.
+      2. For separate css styling of :hover, :active states, use separate classes touchy and clicky
+                which are added/removed dynamically depending on user input.
+      3.Differentiate between real and emulated user clicks: switch between modes when detecting a change in input type.
+              When reacting to a click, if it's a fake click (emulated), don't switch into clicky mode.
+    OBS: consider overlapping of styles, when elements are both hover and active.
+            -> In touchy mode, hover should look like "nothing", but hover gets set every time an element is activated by
+               a click. If the :active state is supposed to look different/interesting, its declaration should come after
+               the one for the :hover state.
+
+
+@TODO  Implemented B.  Try A in a different version and compare solutions.

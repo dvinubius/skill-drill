@@ -3,6 +3,8 @@ var gameMode; // 'multiply', 'sqrt'
 
 var correctAnswer;
 
+var introButton;
+
 var countDown;
 var timer;
 var questionFrame;
@@ -26,12 +28,14 @@ window.onload = () => {
 
 /* Init references to the DOM*/
 function initGlobals() {
-  gameMode = 'multiply';
+	gameMode = 'multiply';
 
+	introButton = document.getElementById('intro');
   question = document.getElementById('question');
   questionFrame = document.getElementById('questionFrame');
   modeButton = document.getElementById('gameModeButton');
   choices = document.getElementById('choices');
+  choiceBoxes = choices.querySelectorAll('div');
   start_reset_button = document.getElementById('start_reset');
   scoreDisplay = document.getElementById('score');
   scoreValueDisplay = document.getElementById('scoreValue');
@@ -42,6 +46,13 @@ function initGlobals() {
   gameOverDisplay = document.getElementById('gameOver');
   finalScoreDisplay = document.getElementById('finalScore');
 
+  /* default value is click interaction, so that
+  cursor is displayed correctly in case it's visible */
+  stayTouchy = false;
+  start_reset_button.classList.add('clicky');
+	introButton.classList.add('clicky');
+	
+
   // AUX for resetGame()
   scoreDisplay.reset = function() {
     this.style.visibility = 'visible';
@@ -49,8 +60,10 @@ function initGlobals() {
   }
   // AUX for resetGame()
   timeDisplay.reset = function() {
+		this.classList.remove('running');
     this.style.visibility = 'visible';
-    timeValueDisplay.innerHTML = countDown;
+		timeValueDisplay.innerHTML = countDown;
+		timeValueDisplay.classList.remove('running');
   }
   // AUX for resetGame()
   choices.reset = function() {
@@ -75,23 +88,26 @@ function resetGame() {
   countDown = 60;
   window.clearInterval(timer);
   gameState = 'ready';
-  question.innerHTML = (gameMode == 'multiply') ? '... x ...' : '... &radic; ...';
+  modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';
   // button is visible when gameState is 'ready'
-  modeButton.style.display = 'inline-block';
+  modeButton.style.visibility = 'visible';
+  question.style.display = 'none';
   question.classList.add('inReadyState');
   choices.reset();
-  start_reset_button.innerHTML = 'Start Game';
+  start_reset_button.classList.remove("finishedState");
+  start_reset_button.innerHTML = 'Start';
   scoreDisplay.reset();
   timeDisplay.reset();
   gameOverDisplay.style.visibility = 'hidden';
 }
 
 function startGame() {
-  gameModeButton.style.display = 'none';
+  modeButton.style.visibility = 'hidden';
+  question.style.display = 'block';
   question.classList.remove('inReadyState');
   choices.start();
   nextQuestion();
-  start_reset_button.innerHTML = 'Reset Game';
+  start_reset_button.innerHTML = 'Reset';
   startCountdown();
   gameState = 'playing';
 }
@@ -103,7 +119,8 @@ function finishGame() {
   scoreDisplay.style.visibility = 'hidden';
   timeDisplay.style.visibility = 'hidden';
 	choices.reset();
-  start_reset_button.innerHTML = 'Play Again';
+  start_reset_button.innerHTML = 'Again!';
+  setTimeout( () => {start_reset_button.classList.add("finishedState")}, 1500);
 }
 
 /* Generate a new question and init UI (question & choices) with the values */
@@ -126,10 +143,12 @@ function startCountdown() {
     }
   };
   timer = window.setInterval(timerAction, 1000);
+	timeDisplay.classList.add('running');
+	timeValueDisplay.classList.add('running');
 }
 
 // Handler for clicks on the start_reset_button
-function clickOnStart_Reset() {
+function clickOnStart_Reset() {	
   gameState=='ready' ? startGame() : resetGame();
 }
 
@@ -157,7 +176,7 @@ function changeGameMode() {
   } else {
     gameMode = 'multiply';
   }
-  question.innerHTML = (gameMode == 'multiply') ? '... x ...' : '... &radic; ...';
+  modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';
 }
 
 // AUX function that generates a question of multiplication of 2 integers
@@ -213,14 +232,93 @@ function initChoicesSqrtQuestion() {
   }
 }
 
-/*Eventhandling not specified in markup*/
+/*Eventhandling*/
 function initEvents() {
-  // make elements recover from being activated via click
-  // (especially useful for mobile interaction,
-  // where the active status just remains there after the tap)
-  document.addEventListener('click', function(e) {
-     if(document.activeElement.toString() == '[object HTMLButtonElement]') {
-       document.activeElement.blur();
-     }
-   });
+
+	// TOGGLE BETWEEN THE 2 USER INTERFACE MODES
+
+  document.addEventListener('mousedown', setUIMode);
+	document.addEventListener('touchstart', setUIMode);
+  document.addEventListener('mousemove', setUIMode);
+
+  function setUIMode(ev) {
+    var touchy = ev.type =='touchstart';
+
+    if (touchy) {
+      start_reset_button.classList.add('touchy');
+      start_reset_button.classList.remove('clicky');
+      for (var i=0; i<choiceBoxes.length; i++) {
+        choiceBoxes[i].classList.add('touchy');
+        choiceBoxes[i].classList.remove('clicky');
+      }
+      // prevent subsequent emulated clicks to return to clicky state.
+      stayTouchy = true;
+      window.setTimeout(function() {
+        stayTouchy = false;
+      }, 1000);
+      // 1000 should be enough time. all clicks after that
+      // would have to be "real" user clicks
+    } else {
+      // only change mode if event was a real user click.
+      if (!stayTouchy) {
+				// changing the mode only for start_reset_button and choice boxes.
+				// The mode button behaves the same
+
+        start_reset_button.classList.remove('touchy');
+        start_reset_button.classList.add('clicky');
+        for (var i=0; i<choiceBoxes.length; i++) {
+          choiceBoxes[i].classList.remove('touchy');
+          choiceBoxes[i].classList.add('clicky');
+        }
+      }
+    }
+  }
+
+	// EVENT HANDLING in CLICK MODE
+
+	introButton.onclick = beginExperience;
+	modeButton.onclick = changeGameMode;
+	start_reset_button.onclick = clickOnStart_Reset;
+	
+  // EVENT HANDLING in TOUCH MODE
+
+	introButton.ontouchend = beginExperience;
+		
+  // modeButton and start_reset_button need no touch handling, will have click triggered by default
+	// modeButton.ontouchend = changeGameMode;
+	// start_reset_button.ontouchend = clickOnStart_Reset;
+		
+}
+
+function beginExperience(ev) {
+  ev.preventDefault();
+			
+	introButton.style.opacity = '0';
+	
+	var goFull = ev.type == 'touchend'; // touch
+	
+	if (goFull) {
+		setTimeout(function() {
+			// Launch fullscreen only for browsers that support it!
+			launchIntoFullscreen(document.documentElement); 
+		}, 750);	
+	}	
+	
+	setTimeout(function() {
+		introButton.style.display = 'none';
+		document.getElementById('panel').style.display = 'flex';
+	}, 1000);	
+}
+
+// Find the right method, call on correct element
+function launchIntoFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if(element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
 }

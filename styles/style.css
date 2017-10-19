@@ -1,232 +1,593 @@
-body {
-  /*for small devices. see media query for changes for larger devices*/
-  font-size:16px;
+/*FOLLOWING STYLES are for devices of all sizes,
+ unless otherwise defined in media queries.
+ In that case the following styles apply to
+ screen-width < 768px only. (xs) */
+
+:root {
+	--font_size: 18;
+
+	--bgGeneral: hsl(55, 0%, 70%);
+	--colGeneral: hsla(0,0%,0%, 0.7);
+	--colShadowPanel: hsl(183, 49%, 26%);
+
+	--bgDisplays: hsl(173, 79%, 49%);
+	--colShadowDisplays: hsl(48, 87%, 28%);
+
+	--colTimer: hsl(0, 73%, 42%);
+
+	--bgButtons: hsl(148, 27%, 95%);
+	--bgActiveButtons: hsl(148, 77%, 78%);
+	--colBorderButtons: hsl(48, 77%, 42%);
+	--colShadowStartButton: hsl(72, 62%, 13%);
+	--colModeButtonActive: hsl(48, 77%, 38%);
+	--buttonFontFam: monospace;
+	--buttonFontSize: 1.2em;
+	--buttonLineHeight: 1.5em;
+
+	--bgChoiceBoxes: hsl(0, 0%, 95%);
+	--bgActiveChoiceBoxes: hsl(0, 0%, 75%);
+	--colShadowChoiceBoxes: hsl(0, 0%, 40%);
+	--funnyFontFam: cursive, sans-serif;
+
+	--choiceFrame_order:1;
+	--questionFrame_order:2;
+	--hud_order:4;
 }
 
-#panel {
-  width: 18em;
-  height: 20em;
-  margin: 2em auto;
-  background-color: hsl(183, 49%, 66%);
-  position: relative;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 5px 5px hsl(183, 49%, 26%);
+body {
+	margin:0;
+	padding:0;
+	width: 100vw;
+	height: 100vh;
+  font-size:calc(var(--font_size)*1px);
+	color: var(--colGeneral);
+	background-color: var(--bgGeneral);
+	
+	display: flex;
+	flex-direction: column-reverse;		
+	justify-content: center;
+
+  /* no blue flashes on touch devices */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+	/* no text should in the UI be selected by the user */
+  user-select: none;	
+}
+
+#intro {
+	display: block;
+	align-self: center;
+  width:10em;
+  height: 2.5em;
+	margin: 0;
+  color: var(--colButtons);
+  background-color: var(--bgButtons);
+  border: 2px solid var(--colBorderButtons);
+	border-radius: 10px;
+  box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
+  line-height: var(--buttonLineHeight);
+  font-size: var(--buttonFontSize);
+  font-family: var(--buttonFontFam);
+  font-weight: 600;
+  transition: transform 0.2s,
+							box-shadow 0.2s,
+							background-color 0.2s ease-in-out,
+							opacity 0.5s ease-in-out;
+}
+
+/* This element will have a .touchy or .clicky class attached, depending on
+   the user touching or clicking on the device. For small devices we only
+   define touchy behavior. With prevent Default implemented, there will be
+   no click emulations, and thus no :focus or :hover states.
+   See media queries for other cases.
+ */
+#intro.touchy:active {
+  transform: scale(0.85);  
+	/* makes the button "sink"*/
+}
+#intro.touchy:focus {
+  outline:none;
+}
+
+@keyframes levitate {
+	0% { top: 0;
+		 	 transform: scale(0.5);}
+	100% {top: calc(-5.5 * 1em);}
+}
+
+@media screen and (min-width: 768px) {
+	#intro{
+	  line-height: var(--buttonLineHeight);
+	  font-size: 1.6em;
+	}
+
+	/* This element will have a .touchy or .clicky class attached, depending on
+     the user touching or clicking on the device.
+     The behaviour is different for touches and clicks. There will be no
+     clicks emulated by the browser in touch events.
+   */
+
+   /* lift the button*/
+  #intro.clicky:hover {
+    transform: translate(0,-4px);
+    /* translate lifts button off the background*/
+    box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
+    /*y offset compensates for translate and for increase in spread*/
+    cursor: pointer;
+  }
+  /* confirm the action */
+  #intro.clicky:active {
+    transform: translate(0,-5px) scaleX(1.06);
+  }
+  #intro.clicky:focus {
+  	outline:none;
+  }
+
+  /* .touchy:active stays the same as for small devices: make the button "sink".
+  {
+    transform: scale(0.90);
+    box-shadow: none;
+  } */
+  #intro.touchy:hover {
+    /* nothing particular */
+  }
+  #intro.touchy:focus {
+    outline: none;
+  }
+}
+
+
+
+#panel {	
+	/*outline: 1px solid black;*/
+  width: 100%;
+	height: 100%;
+	margin: 1em auto;
+	max-width: 500px;
+	box-sizing: border-box;
+  padding: 1em 1em;
   display:flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
-  justify-content: space-between;
-  font-family: cursive, sans-serif;
+  justify-content: flex-start;
+
+	color: var(--colGeneral);
+  font-family: var(--funnyFontFam);
 
   /* applies to all containers inside */
   text-align: center;
-  /* no text should in the UI be selected by the user */
-  user-select: none;
+	
+	/*	at first, none of it is visible */
+	display: none;
 }
 #panel div {
+	width: 100%;
   border-radius: 5px;
-  padding: 0;
+	/*outline: 1px solid black;*/
+}
+#panel button {
+	border-radius: 10px;
+}
+
+#hud {
+	width:85% !important;
+	display:flex;
+	justify-content: space-between;
+	order: var(--hud_order);
 }
 
 #timer, #score {
-  height:1.8em;
-  width:7em;
-  position:absolute;
-  top:5%;
-  background-color: hsl(48, 87%, 58%);
-  box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
+  height:2em;
+	min-width:5em;
+  width: 45% !important;
+	color: var(--colGeneral);
+  background-color: var(--bgDisplays);
+  box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
 
-  line-height: 1.8em;
-  font-size:1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
   visibility: hidden;
 }
 #timer {
-  left: 20px;
+	box-sizing: border-box;
 }
-#score {
-  right: 20px;
+#timer.running {
+	border: 1px solid var(--colTimer);
 }
 #timer p, #score p {
   margin:0;
+	padding:0;
+	font-size:1.4em;
+	font-family: var(--buttonFontFam);
 }
+#timeValue.running {
+	color: var(--colTimer);
+	font-weight: bolder;
+}
+
 
 #questionFrame {
-  width: 19em;
-  height: 7em;
-  margin-top: 3em;
-  background-color: hsl(48, 87%, 58%);
-  box-shadow: 0px 7px 5px -3px hsl(48, 87%, 28%);
-  text-align: center;
+	position: relative;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	order:var(--questionFrame_order);
+  height: 30%;
+	width: 85% !important;
+	margin-top: 10%;
+	color: var(--colGeneral);
+
+  background-color: var(--bgDisplays);
+  box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
+	padding-top: 1em;
+	padding-bottom: 2em;
 }
-#questionFrame p {
-  font-size: 4em;
+#questionFrame > p {
+	position:absolute;
+	bottom: 15%;
+	left: 50%;
+	transform:translateX(-50%);
+	margin: 0;
+	padding: 0;
+	display: none;
+	font-size: 4em;
   line-height: 1em;
-  margin-top: 0.35em;
-  margin-bottom: 0;
 }
-#questionFrame p.inReadyState {
-  font-size: 2.5em;
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 1.5em;
-	opacity: 0.4;
-	letter-spacing: 0.2em;
+
+#start_reset {
+	display: block;
+  width:7em;
+  height: 2.5em;
+	margin: 0;
+  color: var(--colButtons);
+  background-color: var(--bgButtons);
+  border: 2px solid var(--colBorderButtons);
+  box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
+  line-height: var(--buttonLineHeight);
+  font-size: var(--buttonFontSize);
+  font-family: var(--buttonFontFam);
+  font-weight: 600;
+  transition: transform 0.2s,
+							box-shadow 0.1s,
+							background-color 0.1s ease-out,
+							top 0.5s;
 }
+
+/* This element will have a .touchy or .clicky class attached, depending on
+   the user touching or clicking on the device. For small devices we only
+   define touchy behavior. With prevent Default implemented, there will be
+   no click emulations, and thus no :focus or :hover states.
+   See media queries for other cases.
+ */
+#start_reset.touchy:active {
+  transform: scale(0.85);
+  box-shadow: 0px 0px 9px -9px hsl(72, 52%, 19%),
+							0 0 0 1.2em var(--bgActiveButtons) inset;
+	 /* makes the button "sink"*/
+}
+#start_reset.touchy:focus {
+  outline:none;
+}
+#start_reset.finishedState {
+	position:relative;
+	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1;
+	top: calc(-5.5* 1em);
+}
+@keyframes up {
+	0% { top: 0;
+			 transform: scale(0.5);}
+	100% {top: calc(-5.5 * 1em);}
+}
+/* for wider screens (TABLETS and bigger) */
+@media screen and (min-width: 768px) {
+	#start_reset {
+	  line-height: var(--buttonLineHeight);
+	  font-size: 1.6em;
+	}
+
+	#start_reset.finishedState {
+		animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1;
+		top: calc(-5.5* 1em);
+	}
+	@keyframes up {
+		0% { top: 0;
+				 transform: scale(0.5);}
+		100% {top: calc(-5.5 * 1em);}
+	}
+
+
+	/* This element will have a .touchy or .clicky class attached, depending on
+     the user touching or clicking on the device.
+     The behaviour is different for touches and clicks. There will be no
+     clicks emulated by the browser in touch events.
+   */
+
+   /* lift the button*/
+  #start_reset.clicky:hover {
+    transform: translate(0,-4px);
+    /* translate lifts button off the background*/
+    box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
+    /*y offset compensates for translate and for increase in spread*/
+    cursor: pointer;
+  }
+  /* confirm the action */
+  #start_reset.clicky:active {
+    transform: translate(0,-5px) scaleX(1.06);
+		box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
+								0 0 0 1.1em var(--bgActiveButtons) inset;
+
+  }
+  #start_reset.clicky:focus {
+  	outline:none;
+  }
+
+  /* .touchy:active stays the same as for small devices: make the button "sink".
+  {
+    transform: scale(0.90);
+    box-shadow: none;
+  } */
+  #start_reset.touchy:hover {
+    /* nothing particular */
+  }
+  #start_reset.touchy:focus {
+    outline: none;
+  }
+}
+
+
 
 #gameModeButton {
-  /* displayed only when needed - in 'ready' gameState*/
-  display:none;
-
-  width:6em;
-  height: 1.8em;
-  margin-top: 20px;
-  color: hsl(189, 81%, 30%);
-  background-color: hsl(48, 67%, 88%);
-  border: 2px solid hsl(48, 77%, 48%);
-  border-radius: 5px;
-  box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
-  line-height: 1.5em;
-  font-size: 1em;
+	width: 5em;
+	height: 1.6em;
+	color: var(--colGeneral);
+  background-color: var(--bgDisplays);
+  border: 1px groove black;
+	box-shadow: 0px 5px 5px -3px var(--colShadowStartButton);
+	box-sizing: border-box;
+  font-size: 2.2em;
+  font-family: var(--funnyFontFam);
   font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.2s;
+	padding-bottom: 0.3em;
+  transition: transform 1.2s, background-color 1.2s ease-in-out, opacity 0.2s ease-out;
 }
+
+/* This element will use the same style for clicks and touches.
+   On touch devices: with no prevent default, there will be
+   click emulations for every touch event, thus producing the
+   active, focus and hover states.
+ */
 #gameModeButton:active {
-  transform: scale(0.98);
-  box-shadow: none;
+  transform: scale(0.90);
+	opacity: 0;
+  /*box-shadow: 0 0 0 1.1em var(--colModeButtonActive) inset;*/
+  /* makes the button "sink"*/
+}
+#gameModeButton:focus {
+  outline:none;
+}
+#gameModeButton:hover {
+  /* nothing needed on small devices*/
 }
 
 
 #choices {
-  width: 19em;
-  height: 4em;
-  display:flex;
-  flex-flow: row;
-  justify-content: space-between;
+	order: var(--choiceFrame_order);
+  width: 100%;
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 #choices div {
-  width: 4em;
-  height: 4em;
-  background-color: hsl(0, 0%, 95%);
-  box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
-  transition: background-color 0.3s, box-shadow 0.2s, transform 0.1s;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+  width: 35%;
+	min-width: 130px;
+  height: 6em;
+	box-sizing: border-box;
+	margin: .5em .25em 0 .25em;
+  background-color: var(--bgChoiceBoxes);
+  box-shadow: 0px 5px 5px -3px var(--colShadowChoiceBoxes);
+  transition: background-color 0.4s, box-shadow 0.05s, transform 0.05s ease-in-out;
 }
 #choices p {
 	color: hsl(0, 0%, 30%);
 	margin: 0;
 	padding: 0;
-	text-align: center;
-	font-size: 1.1em;
+	font-size: 2.2em;
   font-weight: bolder;
-  line-height: 3.5em;
 }
+/* will use this style for clicks and touches (no preventDefault)*/
 #choices div:active {
-  transform: scale(0.98);
+  background-color: var(--bgActiveChoiceBoxes);
+  transform: scale(0.95);
   box-shadow: none;
+  /* makes the button "sink"*/
 }
 #choices div.resetChoice:active {
+  background-color: var(--bgChoiceBoxes);
   box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
   transform: none;
 }
 
-#start_reset {
-  width:8em;
-  height: 1.8em;
-	margin-top:1em;
-	margin-bottom: 1.5em;
-  color: hsl(189, 81%, 30%);
-  background-color: hsl(48, 67%, 88%);
-  border: 2px solid hsl(48, 77%, 48%);
-  border-radius: 5px;
-  box-shadow: 0px 12px 5px -5px hsl(72, 62%, 13%);
-  line-height: 1.5em;
-  font-size:1em;
-  font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-#start_reset:active {
-  transform: scale(0.98);
-  box-shadow: none;
-}
-
-#finalScore {
-  font-family: monospace;
-  font-size: 1.1em;
-}
-
 #feedbackCorrect, #feedbackWrong {
   position:absolute;
-  top: 29%;
+  bottom: 20%;
   visibility: hidden;
+	z-index: 100;
 }
 #feedbackCorrect img, #feedbackWrong img {
   height:2.6em;
   width:2.6em;
-  border-radius: 50%;
 }
-
 #feedbackCorrect {
-  right: 1.7em;
+  right: -5.7em;
 }
 #feedbackWrong {
-  left: 1.8em;
+  left: -5.9em;
 }
 
 #gameOver {
-  width: 17em;
-  height: 8em;
-  background: radial-gradient(hsl(48, 87%, 58%), hsl(183, 49%, 66%));
-  /*background-color: hsl(86, 50%, 48%);*/
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+  width: 110% !important;
+  height: 93%;
+  background: radial-gradient(var(--bgDisplays), var(--bgGeneral));
   border: 1px solid black;
   border-radius: 10px;
   position: absolute;
-  top: 16%;
-  left: 50%;
-  transform: translate(-50%, 0);
+	top: 0.5em;
+	left: -5%;
 
 	visibility: hidden;
 }
 #gameOver p {
   text-transform: uppercase;
-  font-family: Arial;
+  font-family: var(--buttonFontFam);
   font-size: 1.5em;
+	margin: 0.5em 0;
+	padding:0;
+}
+#finalScore {
+  font-family: monospace;
+  font-size: 1.1em;
 }
 
-/* for smartphones */
+/* for wider screens (TABLETS and bigger) */
 @media screen and (min-width: 768px) {
-  body {
-    font-size: 24px;
-  }
+	:root {
+		--font_size: 20;
+		--buttonFontSize:1.4em;
+	}
 
-  #gameModeButton:hover {
-    transform: translate(0,-2px);
-    /* translate lifts button off the background*/
-    box-shadow: 0px 16px 8px -8px hsl(72, 52%, 19%);
-    /*y offset compensates for translate and for increase in spread*/
-    cursor: pointer;
-  }
-  #gameModeButton:focus {
-  	outline:none;
-  }
+	#panel {
+		max-width: 700px;
+	}
 
-  #choices div:hover {
-    background-color: hsl(0, 0%, 85%);
+	#timer, #score {
+		height:2.2em;
+		min-width:5em;
+	  width: 45% !important;
+
+	  line-height: 2.2em;
+	  font-size:1.4em;
+	}
+
+	#questionFrame {
+		border-radius: 10px;
+	}
+	#questionFrame p {
+		bottom: 20%;
+		font-size: 4.5em;
+	}
+
+	
+
+	#gameModeButton {
+		width: 5em;
+		font-size: 2.6em;
+	}
+
+	/* Defined for small screens already. Stays the same for big ones,
+  being the same for clicks and taps (via click emulation in tap).
+  Adding hover state for actual mouse cursors */
+	#gameModeButton:hover {
+		cursor:pointer;
+	}
+
+	#choices div {
+	  width: 35%;
+	  height: 9em;
+		border-radius: 10px;
+	}
+
+	#choices p {
+		font-size: 3.5em;
+	}
+
+/* Behaviour for touch and click experiences
+  :active already defined for small devices, and stays the same here.
+  now adding 2 different :hover styles for clicky and touchy class
+
+  ! SPECIAL ATTENTION REQUIRED: when hover and active are both on,
+  the css gets interpreted as usual: when the weight is the same,
+  the latter declaration wins.
+  */
+  #choices div.clicky:hover {
     cursor:pointer;
+    background-color: hsl(0, 0%, 75%);
   }
-  #choices div.resetChoice:hover {
+  #choices div.clicky.resetChoice:hover {
+    cursor: default;
+    background-color: hsl(0, 0%, 95%);
+  }
+  #choices div.touchy:hover {
+    cursor:default;
+    background-color: hsl(0, 0%, 95%);
+  }
+  #choices div.touchy.resetChoice:hover {
     cursor: default;
     background-color: hsl(0, 0%, 95%);
   }
 
 
-  #start_reset:hover {
-    transform: translate(0,-2px);
-    /* translate lifts button off the background*/
-    box-shadow: 0px 16px 8px -8px hsl(72, 52%, 19%);
-    /*y offset compensates for translate and for increase in spread*/
-    cursor: pointer;
+  #choices div.touchy:active {
+    background-color: hsl(0, 0%, 75%);
+    transform: scale(0.8);
+    box-shadow: none;
+    /* makes the button "sink"*/
   }
-  #start_reset:focus {
-  	outline:none;
+  #choices div.touchy.resetChoice:active {
+    box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
+    transform: none;
   }
+
+	#gameOver {
+		width: 110% !important;
+	  height: 93% !important;
+		top: 0.5em;
+		left: -5%;
+	}
+	#gameOver p {
+	  text-transform: uppercase;
+	  font-family: var(--buttonFontFam);
+	  font-size: 2em;
+		margin: 0.5em 0;
+		padding:0;
+	}
+
+	#feedbackCorrect, #feedbackWrong {
+	  position:absolute;
+	  bottom: 20%;
+	  visibility: hidden;
+		z-index: 100;
+	}
+	#feedbackCorrect img, #feedbackWrong img {
+	  height:4em;
+	  width:4em;
+	}
+	#feedbackCorrect {
+	  right: -9em;
+	}
+	#feedbackWrong {
+	  left: -9em;
+	}
+}
+
+/* for Laptops and bigger */
+@media screen and (min-width: 992px) {
+	body {
+			background-color: initial;
+	}
+	#panel {
+		background-color: var(--bgGeneral);
+		border-radius: 10px;
+	  box-shadow: 0px 5px 5px var(--colShadowPanel);
+	}
 }
