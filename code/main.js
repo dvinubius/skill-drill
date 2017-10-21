@@ -180,7 +180,6 @@ function pressedMaster(ev) {
 	if (gameState === 'playing') { // button is in reset-state
 		// visual feedback
 		masterButton.classList.add('pressed-reset');
-		debugger;
 		masterButton.addEventListener('transitionend', btnResetTransEnd);  	
 		// logic executed within event handler		
 		return;

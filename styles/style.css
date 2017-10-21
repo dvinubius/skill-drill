@@ -273,9 +273,12 @@ body {
 	transform: translate(0,-4px);
 }
 
-/* style for button when actioned. */
+/* style for button when actioned. 
+  need to decalre the hover states in order to override declarations above */
 #master.clicky.pressed-start, 
-#master.clicky.pressed-reset, 
+#master.clicky.pressed-reset,
+#master.clicky.pressed-start.rise:hover,
+#master.clicky.pressed-reset.rise:hover
 {
 	transition: transform 0.1s, box-shadow 0.1s;
 
@@ -283,9 +286,6 @@ body {
 	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
 							0 0 0 1.1em var(--bgActiveButtons) inset !important;
 }
-
-
-
 
 
 /* styling and behavior again-state is identical for clicky and touchy */
