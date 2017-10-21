@@ -10,7 +10,7 @@ var timer;
 var questionFrame;
 var question;
 var choices;
-var start_reset_button;
+var masterButton;
 var scoreDisplay;
 var scoreValueDisplay;
 var timeDisplay;
@@ -36,7 +36,7 @@ function initGlobals() {
   modeButton = document.getElementById('gameModeButton');
   choices = document.getElementById('choices');
   choiceBoxes = choices.querySelectorAll('div');
-  start_reset_button = document.getElementById('start_reset');
+  masterButton = document.getElementById('master');
   scoreDisplay = document.getElementById('score');
   scoreValueDisplay = document.getElementById('scoreValue');
   timeDisplay = document.getElementById('timer');
@@ -49,7 +49,7 @@ function initGlobals() {
   /* default value is click interaction, so that
   cursor is displayed correctly in case it's visible */
   stayTouchy = false;
-  start_reset_button.classList.add('clicky');
+  masterButton.classList.add('clicky');
 	introButton.classList.add('clicky');
 	
 
@@ -84,21 +84,29 @@ function initGlobals() {
   }
 }
 
-function resetGame() {
-  countDown = 60;
-  window.clearInterval(timer);
-  gameState = 'ready';
-  modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';
-  // button is visible when gameState is 'ready'
-  modeButton.style.visibility = 'visible';
+/* called from within the game (gamestate == 'playing') 
+  or at the end of the game (gamestate == 'over'), 
+	after pressing the master button */
+function resetGame() {		
+	// clean up UI
+  countDown = 2;
+  window.clearInterval(timer);  
+  modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';  
   question.style.display = 'none';
+	
   question.classList.add('inReadyState');
   choices.reset();
-  start_reset_button.classList.remove("finishedState");
-  start_reset_button.innerHTML = 'Start';
-  scoreDisplay.reset();
+	scoreDisplay.reset();
   timeDisplay.reset();
   gameOverDisplay.style.visibility = 'hidden';
+	
+	if (gameState == 'over') {
+		masterButton.classList.remove("finishedState");		
+	}  
+
+	masterButton.innerHTML = 'Start'; 
+	gameState = 'ready';	
+	modeButton.style.visibility = 'visible';		
 }
 
 function startGame() {
@@ -107,7 +115,7 @@ function startGame() {
   question.classList.remove('inReadyState');
   choices.start();
   nextQuestion();
-  start_reset_button.innerHTML = 'Reset';
+  masterButton.innerHTML = 'Reset';	
   startCountdown();
   gameState = 'playing';
 }
@@ -119,8 +127,9 @@ function finishGame() {
   scoreDisplay.style.visibility = 'hidden';
   timeDisplay.style.visibility = 'hidden';
 	choices.reset();
-  start_reset_button.innerHTML = 'Again!';
-  setTimeout( () => {start_reset_button.classList.add("finishedState")}, 1500);
+	masterButton.classList.remove('inGame');
+  masterButton.innerHTML = 'Again!';
+  setTimeout( () => {masterButton.classList.add("finishedState")}, 1500);
 }
 
 /* Generate a new question and init UI (question & choices) with the values */
@@ -147,17 +156,116 @@ function startCountdown() {
 	timeValueDisplay.classList.add('running');
 }
 
-// Handler for clicks on the start_reset_button
-function clickOnStart_Reset() {	
-  gameState=='ready' ? startGame() : resetGame();
+/*Handler when pressed (click or touch) masterButton
+  Button may be in start-state, reset-state or again-state.
+	Dispatching execution flow according to button state.
+	
+	- uses css classes to animate (transition) the button while being pressed
+	- starts the game or resets the game, depending on the game state.
+			- executed at the midpoint of the "clicked" visual feedback
+*/
+function pressedMaster(ev) {	
+	if (gameState === 'over') { // button is in again-state
+		// visual feedback
+		masterButton.classList.add('pressed-again');
+		masterButton.addEventListener('animationend', function() {}, {once:true});
+		// at the moment nothing to do in the handler
+		// moving on with game logic - while animation running
+		resetGame();
+		return;
+	} 
+	
+	// button is in reset-state or start-state
+			
+	if (gameState === 'playing') { // button is in reset-state
+		// visual feedback
+		masterButton.classList.add('pressed-reset');
+		debugger;
+		masterButton.addEventListener('transitionend', btnResetTransEnd);  	
+		// logic executed within event handler		
+		return;
+	}
+	
+	// else - gameState === 'ready' /  button is in start-state
+	
+	// visual feedback
+	masterButton.classList.add('pressed-start');	
+	masterButton.addEventListener('transitionend', btnStartTransEnd);  	
+	// logic executed within event handler
+	return; 	
 }
 
-// Handler for clicks on choice boxes
-// @param target - the box that has been clicked
-function clickOnChoice(target) {
-  if (! (gameState=='playing')) return;
-  // else
-  if (target.textContent == correctAnswer) {
+
+/* handler for ending of transitions at masterButton in reset-state.
+- reset the game
+- set css classes as they were before button was pressed*/
+function btnResetTransEnd(ev) {				
+	/* only execute for the transition with longest duration. currently it's transform */
+	if (ev.propertyName !== 'transform') 
+		return;	
+	// moving on with game logic
+	resetGame();
+	masterButton.removeEventListener('transitionend', btnResetTransEnd); // not needed anymore
+	masterButton.classList.remove('pressed-reset'); // will produce transition back	
+	// handle the transition end event
+	masterButton.addEventListener('transitionend', function() {
+		masterButton.classList.remove('inGame');
+	}, {once: true});			
+}
+
+
+/* handler for ending of transitions at masterButton.
+- start game
+- set css classes as they were before button was pressed*/
+function btnStartTransEnd(ev) {		
+		
+	/* only execute for the transition with longest duration. currently it's transform */
+	if (ev.propertyName !== 'transform') 
+		return;
+	// moving on with game logic
+	startGame();
+	masterButton.removeEventListener('transitionend', btnStartTransEnd); // not needed anymore
+	masterButton.classList.remove('pressed-start'); // will produce transition back
+	// handle the transition end event
+	masterButton.addEventListener('transitionend', function() {
+		masterButton.classList.add('inGame');
+	}, {once: true});		
+}
+
+
+/*Handler when pressed (click or touch) gameModeButton
+	- uses css classes to animate (transition) the button while being pressed
+	- changes game mode at the midpoint of the "clicked" visual feedback
+*/
+function pressedModeButton(ev) {
+	ev.preventDefault(); // no click emulation needed, if as touch handler
+	// visuals
+	modeButton.classList.add('pressed2');
+  modeButton.addEventListener('transitionend', btnModeTransEnd);	
+	// game logic triggered inside the above handler
+}
+
+/* handler for ending of transitions at gameMode button.
+will change the game mode
+will set css classes as they were before button was pressed
+will remove the listener for transition ends*/
+function btnModeTransEnd(ev) {			
+	/* only execute for the transition with longest duration. currently it's transform */
+	if (ev.propertyName !== 'transform') 
+		return;
+	
+	changeGameMode();
+	modeButton.classList.remove('pressed2');
+	modeButton.removeEventListener('transitionend', btnModeTransEnd);
+}
+
+// Handler for clicks on choice boxes. Also used for touch event handling
+function clickOnChoice(ev) {	
+  if (! (gameState=='playing')) return;	
+  // else		
+	/*ev.target.classList.remove('chosen'); */// if necessary			
+	
+  if (ev.target.textContent == correctAnswer) {
     scoreValueDisplay.textContent = (Number(scoreValueDisplay.textContent) + 1);
     feedbackCorrect.style.visibility = 'visible';
     setTimeout(() => {feedbackCorrect.style.visibility = 'hidden';}, 500);
@@ -170,7 +278,7 @@ function clickOnChoice(target) {
 
 // Handler for gameModeButton clicks
 // toggles gameModes
-function changeGameMode() {
+function changeGameMode() {	
   if (gameMode == 'multiply') {
     gameMode = 'sqrt';
   } else {
@@ -242,52 +350,61 @@ function initEvents() {
   document.addEventListener('mousemove', setUIMode);
 
   function setUIMode(ev) {
-    var touchy = ev.type =='touchstart';
+    var touchy = ev.type =='touchstart';		
 
     if (touchy) {
-      start_reset_button.classList.add('touchy');
-      start_reset_button.classList.remove('clicky');
-      for (var i=0; i<choiceBoxes.length; i++) {
-        choiceBoxes[i].classList.add('touchy');
-        choiceBoxes[i].classList.remove('clicky');
-      }
+      masterButton.classList.add('touchy');
+      masterButton.classList.remove('clicky');
+			choiceBoxes.forEach(function(elem) {
+				elem.classList.add('touchy');
+        elem.classList.remove('clicky');
+			}); 
+			console.log('touchy now');
+        
       // prevent subsequent emulated clicks to return to clicky state.
       stayTouchy = true;
       window.setTimeout(function() {
         stayTouchy = false;
-      }, 1000);
-      // 1000 should be enough time. all clicks after that
+      }, 500);
+      // 500 should be enough time. all clicks after that
       // would have to be "real" user clicks
     } else {
       // only change mode if event was a real user click.
       if (!stayTouchy) {
-				// changing the mode only for start_reset_button and choice boxes.
+				// changing the mode only for masterButton and choice boxes.
 				// The mode button behaves the same
-
-        start_reset_button.classList.remove('touchy');
-        start_reset_button.classList.add('clicky');
-        for (var i=0; i<choiceBoxes.length; i++) {
-          choiceBoxes[i].classList.remove('touchy');
-          choiceBoxes[i].classList.add('clicky');
-        }
+        masterButton.classList.remove('touchy');
+        masterButton.classList.add('clicky');
+        choiceBoxes.forEach(function(elem) {
+          elem.classList.remove('touchy');
+          elem.classList.add('clicky');
+        });
+				console.log('clicky now');
       }
     }
   }
 
-	// EVENT HANDLING in CLICK MODE
+	// CLICK MODE
 
 	introButton.onclick = beginExperience;
-	modeButton.onclick = changeGameMode;
-	start_reset_button.onclick = clickOnStart_Reset;
+	modeButton.onclick = pressedModeButton; 
+	masterButton.onclick = pressedMaster;
 	
-  // EVENT HANDLING in TOUCH MODE
+	choiceBoxes.forEach(function(elem) {
+		elem.addEventListener('click', clickOnChoice);
+	});
+		
+	// TOUCH MODE
+	
+	introButton.ontouchend = beginExperience;		
+  // modeButton and masterButton need no touch handling, 
+	// gonna use click triggered by default		
+}
 
-	introButton.ontouchend = beginExperience;
-		
-  // modeButton and start_reset_button need no touch handling, will have click triggered by default
-	// modeButton.ontouchend = changeGameMode;
-	// start_reset_button.ontouchend = clickOnStart_Reset;
-		
+function choiceClickedVisuals(ev) {
+	ev.preventDefault();
+	
+	ev.target.classList.add('chosen');	
 }
 
 function beginExperience(ev) {
@@ -298,7 +415,7 @@ function beginExperience(ev) {
 	var goFull = ev.type == 'touchend'; // touch
 	
 	if (goFull) {
-		setTimeout(function() {
+		setTimeout(function() {			
 			// Launch fullscreen only for browsers that support it!
 			launchIntoFullscreen(document.documentElement); 
 		}, 550);	

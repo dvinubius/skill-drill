@@ -16,13 +16,11 @@
 	--colTimer: hsl(0, 73%, 42%);
 
 	--bgButtons: hsl(148, 27%, 95%);
-	--bgActiveButtons: hsl(148, 77%, 78%);
-	--colBorderButtons: hsl(48, 77%, 42%);
+	--bgActiveButtons: hsl(148, 77%, 78%);	
 	--colShadowStartButton: hsl(72, 62%, 13%);
 	--colModeButtonActive: hsl(48, 77%, 38%);
 	--buttonFontFam: monospace;
 	--buttonFontSize: 1.2em;
-	--buttonLineHeight: 1.5em;
 
 	--bgChoiceBoxes: hsl(0, 0%, 95%);
 	--bgActiveChoiceBoxes: hsl(0, 0%, 75%);
@@ -147,8 +145,13 @@ body {
   border-radius: 5px;
 	/*outline: 1px solid black;*/
 }
-#panel button {
+
+.myButton {
 	border-radius: 10px;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	padding: 0.2em 0.4em;
 }
 
 #hud {
@@ -219,23 +222,24 @@ body {
   line-height: 1em;
 }
 
-#start_reset {
-	display: block;
-  width:7em;
-  height: 2.5em;
+#master {	
+  width:5em;
+  height: 2em;
 	margin: 0;
   color: var(--colButtons);
   background-color: var(--bgButtons);
-  border: 2px solid var(--colBorderButtons);
   box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
-  line-height: var(--buttonLineHeight);
   font-size: var(--buttonFontSize);
   font-family: var(--buttonFontFam);
   font-weight: 600;
-  transition: transform 0.2s,
-							box-shadow 0.1s,
-							background-color 0.1s ease-out,
-							top 0.5s;
+	opacity: 1;
+  transition: transform 0.3s,
+							box-shadow 0.3s,							
+							top 0.5s,
+							opacity 0.2s ease-in-out;
+}
+#master.inGame {	
+	opacity: 0.5;
 }
 
 /* This element will have a .touchy or .clicky class attached, depending on
@@ -244,81 +248,80 @@ body {
    no click emulations, and thus no :focus or :hover states.
    See media queries for other cases.
  */
-#start_reset.touchy:active {
-  transform: scale(0.85);
-  box-shadow: 0px 0px 9px -9px hsl(72, 52%, 19%),
-							0 0 0 1.2em var(--bgActiveButtons) inset;
-	 /* makes the button "sink"*/
+#master.touchy.pressed-start {
+	transition: transform 0.1s, box-shadow 0.1s;
+	
+	transform: scale(0.90);
+	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
+							0 0 0 1.2em var(--bgActiveButtons) inset !important;
 }
-#start_reset.touchy:focus {
-  outline:none;
+#master.touchy.pressed-reset {
+	transition: transform 0.1s, box-shadow 0.1s;
+	
+	transform: scale(0.90);
+	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
+							0 0 0 1.2em var(--bgActiveButtons) inset !important;
 }
-#start_reset.finishedState {
+/* lift the button*/
+#master.clicky:hover {
+	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
+	/*y offset compensates for translate and for increase in spread*/
+	cursor: pointer;
+}
+#master.clicky.rise:hover {
+	/* translate lifts button off the background*/
+	transform: translate(0,-4px);
+}
+
+/* style for button when actioned. */
+#master.clicky.pressed-start, 
+#master.clicky.pressed-reset, 
+{
+	transition: transform 0.1s, box-shadow 0.1s;
+
+	transform: scaleX(1.06) translate(0,-4px);
+	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
+							0 0 0 1.1em var(--bgActiveButtons) inset !important;
+}
+
+
+
+
+
+/* styling and behavior again-state is identical for clicky and touchy */
+#master.pressed-again {
 	position:relative;
-	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1;
-	top: calc(-5.5* 1em);
+	animation: down 0.7s cubic-bezier(0.77, -0.62, 0, 1.13) 1;
 }
+
+#master.finishedState {
+	position:relative;
+	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1,
+						 levitate 0.6s ease-in-out 0.5s infinite;
+	top: calc(-5.5* 1em);	
+}
+#master.clicky.rise.finishedState:hover {
+	/* deactivate all */
+	transform: none;
+}
+
 @keyframes up {
 	0% { top: 0;
 			 transform: scale(0.5);}
 	100% {top: calc(-5.5 * 1em);}
 }
-/* for wider screens (TABLETS and bigger) */
-@media screen and (min-width: 768px) {
-	#start_reset {
-	  line-height: var(--buttonLineHeight);
-	  font-size: 1.6em;
-	}
-
-	#start_reset.finishedState {
-		animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1;
-		top: calc(-5.5* 1em);
-	}
-	@keyframes up {
-		0% { top: 0;
-				 transform: scale(0.5);}
-		100% {top: calc(-5.5 * 1em);}
-	}
-
-
-	/* This element will have a .touchy or .clicky class attached, depending on
-     the user touching or clicking on the device.
-     The behaviour is different for touches and clicks. There will be no
-     clicks emulated by the browser in touch events.
-   */
-
-   /* lift the button*/
-  #start_reset.clicky:hover {
-    transform: translate(0,-4px);
-    /* translate lifts button off the background*/
-    box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
-    /*y offset compensates for translate and for increase in spread*/
-    cursor: pointer;
-  }
-  /* confirm the action */
-  #start_reset.clicky:active {
-    transform: translate(0,-5px) scaleX(1.06);
-		box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
-								0 0 0 1.1em var(--bgActiveButtons) inset;
-
-  }
-  #start_reset.clicky:focus {
-  	outline:none;
-  }
-
-  /* .touchy:active stays the same as for small devices: make the button "sink".
-  {
-    transform: scale(0.90);
-    box-shadow: none;
-  } */
-  #start_reset.touchy:hover {
-    /* nothing particular */
-  }
-  #start_reset.touchy:focus {
-    outline: none;
-  }
+@keyframes down {
+	0% { top: calc(-5.5 * 1em);}
+	100% {top: 0;}
 }
 
+/* for wider screens (TABLETS and bigger) */
+@media screen and (min-width: 768px) {
+	#master {
+	  line-height: var(--buttonLineHeight);
+	  font-size: 1.6em;
+	}  
+}
 
 
 #gameModeButton {
@@ -333,7 +336,7 @@ body {
   font-family: var(--funnyFontFam);
   font-weight: 600;
 	padding-bottom: 0.3em;
-  transition: transform 1.2s, background-color 1.2s ease-in-out, opacity 0.2s ease-out;
+  transition: transform 0.1s, opacity 0.1s ease-out, box-shadow 0.1s;
 }
 
 /* This element will use the same style for clicks and touches.
@@ -341,18 +344,24 @@ body {
    click emulations for every touch event, thus producing the
    active, focus and hover states.
  */
-#gameModeButton:active {
-  transform: scale(0.90);
-	opacity: 0;
-  /*box-shadow: 0 0 0 1.1em var(--colModeButtonActive) inset;*/
+#gameModeButton.pressed2 {
+	transform: scale(0.90);
+	opacity: 0.1;
+	box-shadow: none;
   /* makes the button "sink"*/
 }
-#gameModeButton:focus {
-  outline:none;
-}
 #gameModeButton:hover {
-  /* nothing needed on small devices*/
+	cursor:pointer;
 }
+
+/* for wider screens (TABLETS and bigger) */
+@media screen and (min-width: 768px) {
+	#gameModeButton {
+		width: 5em;
+		font-size: 2.6em;
+	}	
+}
+
 
 
 #choices {
@@ -382,9 +391,16 @@ body {
 	font-size: 2.2em;
   font-weight: bolder;
 }
-/* will use this style for clicks and touches (no preventDefault)*/
+/* will use this style for clicks*/
 #choices div:active {
   background-color: var(--bgActiveChoiceBoxes);
+  transform: scale(0.95);
+  box-shadow: none;
+  /* makes the button "sink"*/
+}
+/* will use this style for touches (preventDefault)*/
+#choices div.chosen {
+	background-color: var(--bgActiveChoiceBoxes);
   transform: scale(0.95);
   box-shadow: none;
   /* makes the button "sink"*/
@@ -394,6 +410,40 @@ body {
   box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
   transform: none;
 }
+
+/*! SPECIAL ATTENTION REQUIRED: when hover and active are both on,
+the css gets interpreted as usual: when the weight is the same,
+the latter declaration wins.
+*/
+#choices div.clicky:hover {
+	cursor:pointer;
+	background-color: var(--bgActiveChoiceBoxes);
+}
+#choices div.clicky.resetChoice:hover {
+	cursor: default;
+	background-color: hsl(0, 0%, 95%);
+}
+#choices div.touchy:hover {
+	cursor:default;
+	background-color: hsl(0, 0%, 95%);
+}
+#choices div.touchy.resetChoice:hover {
+	cursor: default;
+	background-color: hsl(0, 0%, 95%);
+}
+
+/* these 2 are needed for overriding the :hover styles	*/
+#choices div.touchy:active {
+	background-color: var(--bgActiveChoiceBoxes);   
+	box-shadow: none;
+	/* makes the button "sink"*/
+}
+#choices div.touchy.resetChoice:active {
+	box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
+	transform: none;
+}
+
+
 
 #feedbackCorrect, #feedbackWrong {
   position:absolute;
@@ -469,20 +519,6 @@ body {
 		font-size: 4.5em;
 	}
 
-	
-
-	#gameModeButton {
-		width: 5em;
-		font-size: 2.6em;
-	}
-
-	/* Defined for small screens already. Stays the same for big ones,
-  being the same for clicks and taps (via click emulation in tap).
-  Adding hover state for actual mouse cursors */
-	#gameModeButton:hover {
-		cursor:pointer;
-	}
-
 	#choices div {
 	  width: 35%;
 	  height: 9em;
@@ -493,42 +529,6 @@ body {
 		font-size: 3.5em;
 	}
 
-/* Behaviour for touch and click experiences
-  :active already defined for small devices, and stays the same here.
-  now adding 2 different :hover styles for clicky and touchy class
-
-  ! SPECIAL ATTENTION REQUIRED: when hover and active are both on,
-  the css gets interpreted as usual: when the weight is the same,
-  the latter declaration wins.
-  */
-  #choices div.clicky:hover {
-    cursor:pointer;
-    background-color: hsl(0, 0%, 75%);
-  }
-  #choices div.clicky.resetChoice:hover {
-    cursor: default;
-    background-color: hsl(0, 0%, 95%);
-  }
-  #choices div.touchy:hover {
-    cursor:default;
-    background-color: hsl(0, 0%, 95%);
-  }
-  #choices div.touchy.resetChoice:hover {
-    cursor: default;
-    background-color: hsl(0, 0%, 95%);
-  }
-
-
-  #choices div.touchy:active {
-    background-color: hsl(0, 0%, 75%);
-    transform: scale(0.8);
-    box-shadow: none;
-    /* makes the button "sink"*/
-  }
-  #choices div.touchy.resetChoice:active {
-    box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
-    transform: none;
-  }
 
 	#gameOver {
 		width: 110% !important;
