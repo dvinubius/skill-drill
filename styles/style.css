@@ -1,3 +1,8 @@
+@import url('buttons.css');
+@import url('choices.css');
+@import url('intro.css');
+
+
 /*FOLLOWING STYLES are for devices of all sizes,
  unless otherwise defined in media queries.
  In that case the following styles apply to
@@ -5,45 +10,69 @@
 
 :root {
 	--font_size: 18;
+	
+	--col-challenge: hsl(0, 59%, 58%);
 
-	--bgGeneral: hsl(55, 0%, 70%);
+	--col-myblack: hsl(0, 0%, 6%);
+	--bgGeneral: hsl(0, 0%, 49%);
 	--colGeneral: hsla(0,0%,0%, 0.7);
 	--colShadowPanel: hsl(183, 49%, 26%);
 
-	--bgDisplays: hsl(173, 79%, 49%);
-	--colShadowDisplays: hsl(48, 87%, 28%);
+/*	--bgDisplays: hsl(173, 79%, 49%);*/
+	--bgDisplays: hsla(108, 45%, 48%, 0.9);
+	--colShadowDisplays: hsla(0, 57%, 18%, 0.5);	
 
 	--colTimer: hsl(0, 73%, 42%);
 
-	--bgButtons: hsl(148, 27%, 95%);
-	--bgActiveButtons: hsl(148, 77%, 78%);	
+	--bgButtons: hsl(0, 0%, 86%);
+	--bgActiveButtons: hsla(97, 68%, 41%, 0.95);	
 	--colShadowStartButton: hsl(72, 62%, 13%);
-	--colModeButtonActive: hsl(48, 77%, 38%);
 	--buttonFontFam: monospace;
-	--buttonFontSize: 1.2em;
+	--buttonFontSize: 1.4rem;
+	--gameModeButtonFontSize: 1.8rem;
+	--font-size-question: 4rem;
+	
+	--col-question-frame-border: hsla(0,60%, 20%,0.7);
 
-	--bgChoiceBoxes: hsl(0, 0%, 95%);
+	--bgChoiceBoxes: hsl(0, 0%, 86%);
 	--bgActiveChoiceBoxes: hsl(0, 0%, 75%);
-	--colShadowChoiceBoxes: hsl(0, 0%, 40%);
+	--colShadowChoiceBoxes: hsl(0, 87%, 18%);
 	--funnyFontFam: cursive, sans-serif;
+	--font-size-choices: 1.8rem;
+	
+	--font-size-game-over: 1.5em;
 
 	--choiceFrame_order:1;
 	--questionFrame_order:2;
 	--hud_order:4;
 }
+@media screen and (min-width: 768px) {
+	:root {
+		--buttonFontSize:1.6rem;
+		--gameModeButtonFontSize: 2.2rem;
+		--font-size-choices: 2rem;
+		--font-size-game-over: 2em;
+	}
+}
 
 body {
 	margin:0;
 	padding:0;
-	width: 100vw;
-	height: 100vh;
+	width: 100vw;	
+	height: 350vh;
   font-size:calc(var(--font_size)*1px);
 	color: var(--colGeneral);
-	background-color: var(--bgGeneral);
+/*	background: linear-gradient(to bottom, var(--col-myblack), var(--bgGeneral));*/
+/*	background-color: var(--col-myblack);*/
+	background-image: url('../images/parallax/1aJd8X.png');
+	background-size: contain;
+	background-repeat: repeat-x;
 	
 	display: flex;
-	flex-direction: column-reverse;		
-	justify-content: center;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
 
   /* no blue flashes on touch devices */
   -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -51,107 +80,76 @@ body {
 	/* no text should in the UI be selected by the user */
   user-select: none;	
 }
+.background1 {z-index: 0;}
+.background2 {z-index: 1;}
+.intro {z-index: 10;}
+#panel {z-index: 11;}
 
-#intro {
-	display: block;
-	align-self: center;
-  width:10em;
-  height: 2.5em;
-	overflow: hidden;
-	margin: 0;
-  color: hsl(180, 90%, 90%);
-  background-color: hsl(7, 75%, 50%);
-  border: 2px solid var(--colBorderButtons);
-	border-radius: 10px;
-  box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
-  line-height: var(--buttonLineHeight);
-  font-size: var(--buttonFontSize);
-  font-family: var(--buttonFontFam);
-  font-weight: 600;
-  transition: transform 0.2s,
-							box-shadow 0.2s,
-							background-color 0.2s ease-in-out,
-							opacity 0.4s ease-in-out,
-							height 0.4s ease-in-out;
-	animation: levitate 0.6s ease-in-out infinite;
-	position: relative;	
-}
-@keyframes levitate {
-	0% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }	
-	50% { box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%); 
-				transform: scaleX(1.007);}	
-	100% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }		
+.background-para {
+	position: absolute;
+	width: 100%;
+	height: 100%;	
+	
+	background-attachment: fixed;
+	background-position: center;				
 }
 
-#intro:hover {
-	cursor: pointer;
+.background1 {	
+/*	max-width: 750px;*/
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	background-image: url('../images/parallax/2.jpg');	
+	opacity: 0.07;
 }
-#intro:active {
+.background2 {
+	max-width: 450px;
+	border-left: 1px solid red;
+	border-right: 1px solid red;
+	background-image: url('../images/parallax/3.jpg');
+	background-color: hsla(0, 59%, 58%, 0.2);
+	background-blend-mode: normal;	
+	opacity: 0.3;
 }
-#intro:focus {
-  outline:none;
-}
-#intro.away {
-	animation: none;
-	opacity: 0;
-	height: 0;
-}
-
-
-
-
-@media screen and (min-width: 768px) {
-	#intro{
-	  line-height: var(--buttonLineHeight);
-	  font-size: 1.6em;
-	}   
-}
-
-
 
 #panel {	
-	/*outline: 1px solid black;*/
   width: 100%;
-	height: 100%;
-	margin: 1em auto;
-	max-width: 500px;
+	height: 90vh;
+	max-height: 700px;
+	margin: 25vh auto 3em;
+	max-width: 400px;
 	box-sizing: border-box;
   padding: 1em 1em;
-	overflow: hidden !important;
+	overflow: visible;
+	
   display:flex;
   flex-direction: column-reverse;
   align-items: center;
   justify-content: flex-start;
-
+	
 	color: var(--colGeneral);
   font-family: var(--funnyFontFam);
 
   /* applies to all containers inside */
-  text-align: center;		
-		
-	animation: appear 0.5s linear 1;
+  text-align: center;	
+	position: relative;
 }
+
 #panel.hidden {
 	/*	at first, none of it is visible */
-	display: none;
+/*	visibility:hidden;*/
+}
+#panel.shown {
+	animation: appear 0.7s ease-in-out;
 }
 @keyframes appear {
 	0% {opacity: 0;}
 	100% {opacity: 1;}
 }
 
-#panel div {
+#panel > div {
 	width: 100%;
   border-radius: 5px;
 	/*outline: 1px solid black;*/
-}
-
-.myButton {
-	border-radius: 10px;
-	display: flex !important;
-	align-items: center;
-	justify-content: center;
-	padding: 0.2em 0.4em;
 }
 
 #hud {
@@ -167,13 +165,13 @@ body {
   width: 45% !important;
 	color: var(--colGeneral);
   background-color: var(--bgDisplays);
+	border: 1px solid var(--col-question-frame-border);
   box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
-
+	border-radius: 5px;	
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-  visibility: hidden;
+	visibility: none;
 }
 #timer {
 	box-sizing: border-box;
@@ -200,13 +198,15 @@ body {
 	align-items: center;
 	justify-content: space-around;
 	order:var(--questionFrame_order);
-  height: 30%;
+  height: 35%;
 	width: 85% !important;
 	margin-top: 10%;
+	margin-bottom: 5%;
 	color: var(--colGeneral);
 
   background-color: var(--bgDisplays);
-  box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
+	border: 1px solid var(--col-question-frame-border);
+	box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
 	padding-top: 1em;
 	padding-bottom: 2em;
 }
@@ -218,248 +218,46 @@ body {
 	margin: 0;
 	padding: 0;
 	display: none;
-	font-size: 4em;
+	font-size: 4rem;
   line-height: 1em;
 }
-
-#master {	
-  width:5em;
-  height: 2em;
-	margin: 0;
-  color: var(--colButtons);
-  background-color: var(--bgButtons);
-  box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
-  font-size: var(--buttonFontSize);
-  font-family: var(--buttonFontFam);
-  font-weight: 600;
-	opacity: 1;
-  transition: transform 0.3s,
-							box-shadow 0.3s,							
-							top 0.5s,
-							opacity 0.2s ease-in-out;
+@media (min-width: 768px) {
+	#questionFrame p {
+		bottom: 20%;	
+	}
 }
-#master.inGame {	
-	opacity: 0.5;
-}
-
-/* This element will have a .touchy or .clicky class attached, depending on
-   the user touching or clicking on the device. For small devices we only
-   define touchy behavior. With prevent Default implemented, there will be
-   no click emulations, and thus no :focus or :hover states.
-   See media queries for other cases.
- */
-#master.touchy.pressed-start {
-	transition: transform 0.1s, box-shadow 0.1s;
-	
-	transform: scale(0.90);
-	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
-							0 0 0 1.2em var(--bgActiveButtons) inset !important;
-}
-#master.touchy.pressed-reset {
-	transition: transform 0.1s, box-shadow 0.1s;
-	
-	transform: scale(0.90);
-	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
-							0 0 0 1.2em var(--bgActiveButtons) inset !important;
-}
-/* lift the button*/
-#master.clicky:hover {
-	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
-	/*y offset compensates for translate and for increase in spread*/
-	cursor: pointer;
-}
-#master.clicky.rise:hover {
-	/* translate lifts button off the background*/
-	transform: translate(0,-4px);
-}
-
-/* style for button when actioned. 
-  need to decalre the hover states in order to override declarations above */
-#master.clicky.pressed-start, 
-#master.clicky.pressed-reset,
-#master.clicky.pressed-start.rise:hover,
-#master.clicky.pressed-reset.rise:hover
-{
-	transition: transform 0.1s, box-shadow 0.1s;
-
-	transform: scaleX(1.06) translate(0,-4px);
-	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
-							0 0 0 1.1em var(--bgActiveButtons) inset !important;
-}
-
-
-/* styling and behavior again-state is identical for clicky and touchy */
-#master.pressed-again {
-	position:relative;
-	animation: down 0.7s cubic-bezier(0.77, -0.62, 0, 1.13) 1;
-}
-
-#master.finishedState {
-	position:relative;
-	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1,
-						 levitate 0.6s ease-in-out 0.5s infinite;
-	top: calc(-5.5* 1em);	
-}
-#master.clicky.rise.finishedState:hover {
-	/* deactivate all */
-	transform: none;
-}
-
-@keyframes up {
-	0% { top: 0;
-			 transform: scale(0.5);}
-	100% {top: calc(-5.5 * 1em);}
-}
-@keyframes down {
-	0% { top: calc(-5.5 * 1em);}
-	100% {top: 0;}
-}
-
-/* for wider screens (TABLETS and bigger) */
-@media screen and (min-width: 768px) {
-	#master {
-	  line-height: var(--buttonLineHeight);
-	  font-size: 1.6em;
-	}  
-}
-
-
-#gameModeButton {
-	width: 5em;
-	height: 1.6em;
-	color: var(--colGeneral);
-  background-color: var(--bgDisplays);
-  border: 1px groove black;
-	box-shadow: 0px 5px 5px -3px var(--colShadowStartButton);
-	box-sizing: border-box;
-  font-size: 2.2em;
-  font-family: var(--funnyFontFam);
-  font-weight: 600;
-	padding-bottom: 0.3em;
-  transition: transform 0.1s, opacity 0.1s ease-out, box-shadow 0.1s;
-}
-
-/* This element will use the same style for clicks and touches.
-   On touch devices: with no prevent default, there will be
-   click emulations for every touch event, thus producing the
-   active, focus and hover states.
- */
-#gameModeButton.pressed2 {
-	transform: scale(0.90);
-	opacity: 0.1;
-	box-shadow: none;
-  /* makes the button "sink"*/
-}
-#gameModeButton:hover {
-	cursor:pointer;
-}
-
-/* for wider screens (TABLETS and bigger) */
-@media screen and (min-width: 768px) {
-	#gameModeButton {
-		width: 5em;
-		font-size: 2.6em;
-	}	
-}
-
-
-
-#choices {
-	order: var(--choiceFrame_order);
-  width: 100%;
-	display:flex;
-	flex-wrap: wrap;
-	justify-content: center;
-}
-#choices div {
-	display:flex;
-	align-items: center;
-	justify-content: center;
-  width: 35%;
-	min-width: 130px;
-  height: 6em;
-	box-sizing: border-box;
-	margin: .5em .25em 0 .25em;
-  background-color: var(--bgChoiceBoxes);
-  box-shadow: 0px 5px 5px -3px var(--colShadowChoiceBoxes);
-  transition: background-color 0.4s, box-shadow 0.05s, transform 0.05s ease-in-out;
-}
-#choices p {
-	color: hsl(0, 0%, 30%);
-	margin: 0;
-	padding: 0;
-	font-size: 2.2em;
-  font-weight: bolder;
-}
-/* will use this style for clicks*/
-#choices div:active {
-  background-color: var(--bgActiveChoiceBoxes);
-  transform: scale(0.95);
-  box-shadow: none;
-  /* makes the button "sink"*/
-}
-/* will use this style for touches (preventDefault)*/
-#choices div.chosen {
-	background-color: var(--bgActiveChoiceBoxes);
-  transform: scale(0.95);
-  box-shadow: none;
-  /* makes the button "sink"*/
-}
-#choices div.resetChoice:active {
-  background-color: var(--bgChoiceBoxes);
-  box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
-  transform: none;
-}
-
-/*! SPECIAL ATTENTION REQUIRED: when hover and active are both on,
-the css gets interpreted as usual: when the weight is the same,
-the latter declaration wins.
-*/
-#choices div.clicky:hover {
-	cursor:pointer;
-	background-color: var(--bgActiveChoiceBoxes);
-}
-#choices div.clicky.resetChoice:hover {
-	cursor: default;
-	background-color: hsl(0, 0%, 95%);
-}
-#choices div.touchy:hover {
-	cursor:default;
-	background-color: hsl(0, 0%, 95%);
-}
-#choices div.touchy.resetChoice:hover {
-	cursor: default;
-	background-color: hsl(0, 0%, 95%);
-}
-
-/* these 2 are needed for overriding the :hover styles	*/
-#choices div.touchy:active {
-	background-color: var(--bgActiveChoiceBoxes);   
-	box-shadow: none;
-	/* makes the button "sink"*/
-}
-#choices div.touchy.resetChoice:active {
-	box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
-	transform: none;
-}
-
-
 
 #feedbackCorrect, #feedbackWrong {
   position:absolute;
-  bottom: 20%;
+  top: 18%;
   visibility: hidden;
 	z-index: 100;
 }
 #feedbackCorrect img, #feedbackWrong img {
-  height:2.6em;
-  width:2.6em;
+  height:2.3em;
+  width:2.3em;
 }
 #feedbackCorrect {
-  right: -5.7em;
+  right: 1.2em;
 }
 #feedbackWrong {
-  left: -5.9em;
+  left: 1.2em;
+}
+	
+@media (min-width: 768px) {
+	#feedbackCorrect, #feedbackWrong {		
+		top: 17%;		
+	}
+	#feedbackCorrect img, #feedbackWrong img {
+		height:3em;
+		width:3em;
+	}
+	#feedbackCorrect {
+  	right: 1.1em;
+	}
+	#feedbackWrong {
+		left: 1em;
+	}
 }
 
 #gameOver {
@@ -478,98 +276,16 @@ the latter declaration wins.
 	left: -5%;
 
 	visibility: hidden;
+	z-index: 200;
 }
 #gameOver p {
   text-transform: uppercase;
   font-family: var(--buttonFontFam);
-  font-size: 1.5em;
+  font-size: var(--font-size-game-over);
 	margin: 0.5em 0;
 	padding:0;
 }
 #finalScore {
   font-family: monospace;
   font-size: 1.1em;
-}
-
-/* for wider screens (TABLETS and bigger) */
-@media screen and (min-width: 768px) {
-	:root {
-		--font_size: 20;
-		--buttonFontSize:1.4em;
-	}
-
-	#panel {
-		max-width: 700px;
-	}
-
-	#timer, #score {
-		height:2.2em;
-		min-width:5em;
-	  width: 45% !important;
-
-	  line-height: 2.2em;
-	  font-size:1.4em;
-	}
-
-	#questionFrame {
-		border-radius: 10px;
-	}
-	#questionFrame p {
-		bottom: 20%;
-		font-size: 4.5em;
-	}
-
-	#choices div {
-	  width: 35%;
-	  height: 9em;
-		border-radius: 10px;
-	}
-
-	#choices p {
-		font-size: 3.5em;
-	}
-
-
-	#gameOver {
-		width: 110% !important;
-	  height: 93% !important;
-		top: 0.5em;
-		left: -5%;
-	}
-	#gameOver p {
-	  text-transform: uppercase;
-	  font-family: var(--buttonFontFam);
-	  font-size: 2em;
-		margin: 0.5em 0;
-		padding:0;
-	}
-
-	#feedbackCorrect, #feedbackWrong {
-	  position:absolute;
-	  bottom: 20%;
-	  visibility: hidden;
-		z-index: 100;
-	}
-	#feedbackCorrect img, #feedbackWrong img {
-	  height:4em;
-	  width:4em;
-	}
-	#feedbackCorrect {
-	  right: -9em;
-	}
-	#feedbackWrong {
-	  left: -9em;
-	}
-}
-
-/* for Laptops and bigger */
-@media screen and (min-width: 992px) {
-	body {
-			background-color: initial;
-	}
-	#panel {
-		background-color: var(--bgGeneral);
-		border-radius: 10px;
-	  box-shadow: 0px 5px 5px var(--colShadowPanel);
-	}
 }

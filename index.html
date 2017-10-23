@@ -7,9 +7,38 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
   	<link rel="stylesheet" type="text/css" href="styles/style.css">
   </head>
-  <body>   
-		<button id='intro' type="button">Bring it on!</button>    
-		<div id='panel' class='hidden'>
+  <body>
+  	
+  	<div class="background-para background1"></div>
+  	<div class="background-para background2"></div>
+		
+		<div class='intro' id="intro">  	  
+			<div class="intro-texts">
+				<h2 class='pre-heading'>the<br><span>engineer's</span><br>ultimate</h2>
+				<h1 class='heading'>Skill Drill</h1>			
+				<h2 class='call'>bring it on</h2>	
+				<div class='arrow' id='arrow' onclick="goDown()"><h3>V</h3></div>
+			</div>
+			<div class="intro-indicators">																						
+				<h3 class='dot1'>.</h3>			
+				<h3 class='dot2'>.</h3>
+				<h3 class='dot3'>.</h3>								
+				<h3 class="empty"> </h3>								
+				<h3 class='dot4'>.</h3>								
+				<h3 class="empty"> </h3>								
+				<h3 class='dot5'>.</h3>								
+				<h3 class="empty"> </h3>								
+				<h3 class="empty"> </h3>								
+				<h3 class='dot6'>.</h3>
+				<h3 class="empty"> </h3>								
+				<h3 class="empty"> </h3>
+				<h3 class="empty"> </h3>																
+				<h3>.</h3>
+			</div>
+		</div>
+
+
+		<div id='panel' class="hidden">
 			<div id='hud'>
 				<div id='timer'>
 					<p><span id='timeValue'>[60]</span> sec</p>
@@ -20,7 +49,7 @@
 			</div>
 			<div id='questionFrame'>
 				<label id='master' class='myButton rise'>[Start Game]</label>
-				<label id='gameModeButton' class='myButton'>Mode</label>
+				<div id='gameModeButton' class='myButton'>Mode</div>
 				<p id='question'>[6x7]</p>
 				<div id='feedbackCorrect'>
 					<img src='images/check-mark-6-512.png'>
@@ -39,8 +68,8 @@
 				<div><p>52</p></div>
 				<div><p>65</p></div>
 			</div>
-
-		</div>
+		</div>	  	
+  	
     <script src='code/main.js'></script>
   </body>
 </html>

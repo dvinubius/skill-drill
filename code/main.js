@@ -3,8 +3,12 @@ var gameMode; // 'multiply', 'sqrt'
 
 var correctAnswer;
 
-var introButton;
+var background1;
+var background2;
+var arrow;
 
+var intro;
+var panel;
 var countDown;
 var timer;
 var questionFrame;
@@ -30,7 +34,12 @@ window.onload = () => {
 function initGlobals() {
 	gameMode = 'multiply';
 
-	introButton = document.getElementById('intro');
+	background1 = document.getElementsByClassName('background1')[0];
+	background2 = document.getElementsByClassName('background2')[0];
+	
+	intro = document.getElementById('intro');
+	panel = document.getElementById('panel');
+	arrow = document.getElementById('arrow');
   question = document.getElementById('question');
   questionFrame = document.getElementById('questionFrame');
   modeButton = document.getElementById('gameModeButton');
@@ -50,7 +59,6 @@ function initGlobals() {
   cursor is displayed correctly in case it's visible */
   stayTouchy = false;
   masterButton.classList.add('clicky');
-	introButton.classList.add('clicky');
 	
 
   // AUX for resetGame()
@@ -89,7 +97,7 @@ function initGlobals() {
 	after pressing the master button */
 function resetGame() {		
 	// clean up UI
-  countDown = 2;
+  countDown = 10;
   window.clearInterval(timer);  
   modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';  
   question.style.display = 'none';
@@ -341,6 +349,9 @@ function initChoicesSqrtQuestion() {
 
 /*Eventhandling*/
 function initEvents() {
+	
+	// parallax effect
+	window.addEventListener('scroll', monitorScroll);
 
 	// TOGGLE BETWEEN THE 2 USER INTERFACE MODES
 
@@ -385,7 +396,6 @@ function initEvents() {
 
 	// CLICK MODE
 
-	introButton.onclick = beginExperience;
 	modeButton.onclick = pressedModeButton; 
 	masterButton.onclick = pressedMaster;
 	
@@ -395,7 +405,6 @@ function initEvents() {
 		
 	// TOUCH MODE
 	
-	introButton.ontouchend = beginExperience;		
   // modeButton and masterButton need no touch handling, 
 	// gonna use click triggered by default		
 }
@@ -404,26 +413,6 @@ function choiceClickedVisuals(ev) {
 	ev.preventDefault();
 	
 	ev.target.classList.add('chosen');	
-}
-
-function beginExperience(ev) {
-  ev.preventDefault();
-			
-	introButton.classList.add('away');
-	
-	var goFull = ev.type == 'touchend'; // touch
-	
-	if (goFull) {
-		setTimeout(function() {			
-			// Launch fullscreen only for browsers that support it!
-			launchIntoFullscreen(document.documentElement); 
-		}, 550);	
-	}	
-	
-	setTimeout(function() {
-		introButton.style.display = 'none';
-		document.getElementById('panel').classList.remove('hidden');
-	}, 600);	
 }
 
 // Find the right method, call on correct element
@@ -437,4 +426,24 @@ function launchIntoFullscreen(element) {
   } else if(element.msRequestFullscreen) {
     element.msRequestFullscreen();
   }
+}
+
+function goDown() {
+	document.getElementById('panel').scrollIntoView({
+		  behavior: 'smooth'
+		});	
+}
+
+/* handles parallax effect */
+function monitorScroll() {
+	var wScroll = window.scrollY;		
+	var panelY = intro.offsetHeight; // Y where the panel begins
+	
+	background1.style.backgroundPositionY = (wScroll)*1/2+'px';
+	background2.style.backgroundPositionY = (wScroll)*1/25+'px';
+	
+	/*if (!panel.visible && wScroll + window.innerHeight > panelY*1.5) { // panel has come into view
+		panel.classList.remove('hidden');
+		panel.classList.add('shown');
+	}*/
 }
