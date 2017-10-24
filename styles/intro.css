@@ -25,12 +25,14 @@
 	align-items: center;
 	justify-content: center;
 	margin-top: 2em;
+  text-align: center;
 }
 .arrow h3 {
 	color: var(--col-challenge);
 	font-family: var(--buttonFontFam);
 	margin: 0 !important;
 	padding: 0 !important;
+  text-align: center;
 /*	font-weight: 200 !important;*/
 }
 .arrow:hover {
@@ -59,6 +61,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+  text-align: center;
 }
 .intro-indicators h3 {
 	font-family: var(--buttonFontFam);

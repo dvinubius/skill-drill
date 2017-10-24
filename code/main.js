@@ -412,8 +412,10 @@ function checkForParallax() {
   if (window.innerWidth >= 992) {
     // parallax effect
     window.addEventListener('scroll', monitorScroll);
+    // background2.style.display = 'initial';
   } else {
     window.removeEventListener('scroll', monitorScroll);
+    // background2.style.display = 'none';
   }
 }
 
@@ -434,7 +436,8 @@ function launchIntoFullscreen(element) {
 Tries going fullscreen, then scrolls down smoothly to game panel*/
 function goDown() {
   var goneDown = false;
-  document.documentElement.addEventListener('fullscreenchange', () => {
+  document.documentElement.addEventListener('webkitfullscreenchange mozfullscreenchange fullscreenchange', () => {
+    console.log('hi');
     checkForParallax(); // if fullscreen, perhaps parallax is possible
     // scroll down
     document.getElementById('panel').scrollIntoView({
