@@ -42,7 +42,7 @@
 
 .intro h1, 
 .intro h2 {
-	color: hsl(180, 90%, 90%);   
+	color: var(--col-intro);   
   line-height: var(--buttonLineHeight);
   font-family: var(--buttonFontFam);
   font-weight: 600;
