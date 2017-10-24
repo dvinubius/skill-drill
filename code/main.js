@@ -435,24 +435,27 @@ function launchIntoFullscreen(element) {
 /* Event handler for pressing the arrow on the welcome view.
 Tries going fullscreen, then scrolls down smoothly to game panel*/
 function goDown() {
-  var goneDown = false;
-  document.documentElement.addEventListener('webkitfullscreenchange mozfullscreenchange fullscreenchange', () => {
-    console.log('hi');
-    checkForParallax(); // if fullscreen, perhaps parallax is possible
-    // scroll down
+
+  // cannot listen for fullscreen event, it is only fired when requestFullscreen is executed.
+  // as of now, the only working method in chrome is webkitfullscreenchange.
+  // will catch the cases of going fullscreen within the resize-listener.
+
+  // var goneDown = false;
+  // document.documentElement.addEventListener('webkitfullscreenchange mozfullscreenchange fullscreenchange', function() {
+  //   checkForParallax(); // if fullscreen, perhaps parallax is possible
+  //   // scroll down
+  //   document.getElementById('panel').scrollIntoView({
+  //       behavior: 'smooth'
+  //     });
+  //   goneDown = true;
+  // }, {once:true}); // executed once, at most - not necessary to remove listener within handler
+
+  launchIntoFullscreen(document.documentElement);
+  setTimeout(() => {
     document.getElementById('panel').scrollIntoView({
         behavior: 'smooth'
       });
-    goneDown = true;
-  }, {once:true}); // executed once, at most - not necessary to remove listener within handler
-  launchIntoFullscreen(document.documentElement);
-  setTimeout(() => {
-    if (!goneDown) {
-      document.getElementById('panel').scrollIntoView({
-          behavior: 'smooth'
-        });
-    }
-  }, 500);
+  }, 400);
 
 }
 
