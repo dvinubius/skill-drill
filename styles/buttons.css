@@ -7,7 +7,7 @@
 }
 
 
-#master {	
+#master {
   width:5em;
   height: 2em;
 	margin: 0;
@@ -20,12 +20,12 @@
   font-weight: 500;
 	opacity: 1;
   transition: transform 0.3s,
-							box-shadow 0.3s,							
+							box-shadow 0.3s,
 							background-color 0.3s,
 							top 0.5s,
 							opacity 0.2s ease-in-out;
 }
-#master.inGame {	
+#master.inGame {
 	transition: transform 0.3s,
 							box-shadow 0.3s,
 							background-color 0.3s,
@@ -42,14 +42,14 @@
  */
 #master.touchy.pressed-start {
 	transition: transform 0.1s, box-shadow 0.1s;
-	
+
 	transform: scale(0.90);
 	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
 							0 0 0 1.2em var(--bgActiveButtons) inset !important;
 }
 #master.touchy.pressed-reset {
 	transition: transform 0.1s, box-shadow 0.1s;
-	
+
 	transform: scale(0.90);
 	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
 							0 0 0 1.2em var(--bgActiveButtons) inset !important;
@@ -66,9 +66,9 @@
 	transform: translate(0,-4px);
 }
 
-/* style for button when actioned. 
+/* style for button when actioned.
   need to decalre the hover states in order to override declarations above */
-#master.clicky.pressed-start, 
+#master.clicky.pressed-start,
 #master.clicky.pressed-reset,
 #master.clicky.pressed-start.rise:hover,
 #master.clicky.pressed-reset.rise:hover
@@ -91,7 +91,7 @@
 	position:relative;
 	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1,
 						 levitate 0.6s ease-in-out 0.5s infinite;
-	top: calc(-4* 1em);	
+	top: calc(-4* 1em);
 }
 #master.clicky.rise.finishedState:hover {
 	/* deactivate all */
@@ -108,26 +108,26 @@
 	100% {top: 0;}
 }
 @keyframes levitate {
-	0% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }	
-	50% { box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%); 
-				transform: scaleX(1.007);}	
-	100% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }		
+	0% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }
+	50% { box-shadow: 0px 19px 9px -9px var(--colShadowStartButton-blurred);
+				transform: scaleX(1.007) translateY(-0.1em);}
+	100% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }
 }
 
 #gameModeButton {
 	width: 5em;
 	height: 1.6em;
 	color: var(--colGeneral);
-  background-color: var(--bgDisplays);	
+  background-color: var(--bgDisplays);
   border: 1px solid hsla(0, 0%, 0.36%, 0.1);
 	box-shadow: 0px 5px 5px -3px var(--colShadowStartButton);
 	box-sizing: border-box;
   font-size: var(--gameModeButtonFontSize);
-	padding-bottom: 0.2em;	
+	padding-bottom: 0.2em;
   font-family: var(--funnyFontFam);
   font-weight: 600;
-	
-  transition: transform 0.1s, opacity 0.1s ease-out, box-shadow 0.1s;	
+
+  transition: transform 0.1s, opacity 0.1s ease-out, box-shadow 0.1s;
 }
 
 /* This element will use the same style for clicks and touches.
@@ -144,4 +144,3 @@
 #gameModeButton:hover {
 	cursor:pointer;
 }
-

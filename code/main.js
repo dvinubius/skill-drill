@@ -36,7 +36,7 @@ function initGlobals() {
 
 	background1 = document.getElementsByClassName('background1')[0];
 	background2 = document.getElementsByClassName('background2')[0];
-	
+
 	intro = document.getElementById('intro');
 	panel = document.getElementById('panel');
 	arrow = document.getElementById('arrow');
@@ -59,7 +59,7 @@ function initGlobals() {
   cursor is displayed correctly in case it's visible */
   stayTouchy = false;
   masterButton.classList.add('clicky');
-	
+
 
   // AUX for resetGame()
   scoreDisplay.reset = function() {
@@ -92,29 +92,29 @@ function initGlobals() {
   }
 }
 
-/* called from within the game (gamestate == 'playing') 
-  or at the end of the game (gamestate == 'over'), 
+/* called from within the game (gamestate == 'playing')
+  or at the end of the game (gamestate == 'over'),
 	after pressing the master button */
-function resetGame() {		
+function resetGame() {
 	// clean up UI
   countDown = 10;
-  window.clearInterval(timer);  
-  modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';  
+  window.clearInterval(timer);
+  modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';
   question.style.display = 'none';
-	
+
   question.classList.add('inReadyState');
   choices.reset();
 	scoreDisplay.reset();
   timeDisplay.reset();
   gameOverDisplay.style.visibility = 'hidden';
-	
-	if (gameState == 'over') {
-		masterButton.classList.remove("finishedState");		
-	}  
 
-	masterButton.innerHTML = 'Start'; 
-	gameState = 'ready';	
-	modeButton.style.visibility = 'visible';		
+	if (gameState == 'over') {
+		masterButton.classList.remove("finishedState");
+	}
+
+	masterButton.innerHTML = 'Start';
+	gameState = 'ready';
+	modeButton.style.visibility = 'visible';
 }
 
 function startGame() {
@@ -123,7 +123,7 @@ function startGame() {
   question.classList.remove('inReadyState');
   choices.start();
   nextQuestion();
-  masterButton.innerHTML = 'Reset';	
+  masterButton.innerHTML = 'Reset';
   startCountdown();
   gameState = 'playing';
 }
@@ -167,12 +167,12 @@ function startCountdown() {
 /*Handler when pressed (click or touch) masterButton
   Button may be in start-state, reset-state or again-state.
 	Dispatching execution flow according to button state.
-	
+
 	- uses css classes to animate (transition) the button while being pressed
 	- starts the game or resets the game, depending on the game state.
 			- executed at the midpoint of the "clicked" visual feedback
 */
-function pressedMaster(ev) {	
+function pressedMaster(ev) {
 	if (gameState === 'over') { // button is in again-state
 		// visual feedback
 		masterButton.classList.add('pressed-again');
@@ -181,53 +181,53 @@ function pressedMaster(ev) {
 		// moving on with game logic - while animation running
 		resetGame();
 		return;
-	} 
-	
+	}
+
 	// button is in reset-state or start-state
-			
+
 	if (gameState === 'playing') { // button is in reset-state
 		// visual feedback
 		masterButton.classList.add('pressed-reset');
-		masterButton.addEventListener('transitionend', btnResetTransEnd);  	
-		// logic executed within event handler		
+		masterButton.addEventListener('transitionend', btnResetTransEnd);
+		// logic executed within event handler
 		return;
 	}
-	
+
 	// else - gameState === 'ready' /  button is in start-state
-	
+
 	// visual feedback
-	masterButton.classList.add('pressed-start');	
-	masterButton.addEventListener('transitionend', btnStartTransEnd);  	
+	masterButton.classList.add('pressed-start');
+	masterButton.addEventListener('transitionend', btnStartTransEnd);
 	// logic executed within event handler
-	return; 	
+	return;
 }
 
 
 /* handler for ending of transitions at masterButton in reset-state.
 - reset the game
 - set css classes as they were before button was pressed*/
-function btnResetTransEnd(ev) {				
+function btnResetTransEnd(ev) {
 	/* only execute for the transition with longest duration. currently it's transform */
-	if (ev.propertyName !== 'transform') 
-		return;	
+	if (ev.propertyName !== 'transform')
+		return;
 	// moving on with game logic
 	resetGame();
 	masterButton.removeEventListener('transitionend', btnResetTransEnd); // not needed anymore
-	masterButton.classList.remove('pressed-reset'); // will produce transition back	
+	masterButton.classList.remove('pressed-reset'); // will produce transition back
 	// handle the transition end event
 	masterButton.addEventListener('transitionend', function() {
 		masterButton.classList.remove('inGame');
-	}, {once: true});			
+	}, {once: true});
 }
 
 
 /* handler for ending of transitions at masterButton.
 - start game
 - set css classes as they were before button was pressed*/
-function btnStartTransEnd(ev) {		
-		
+function btnStartTransEnd(ev) {
+
 	/* only execute for the transition with longest duration. currently it's transform */
-	if (ev.propertyName !== 'transform') 
+	if (ev.propertyName !== 'transform')
 		return;
 	// moving on with game logic
 	startGame();
@@ -236,7 +236,7 @@ function btnStartTransEnd(ev) {
 	// handle the transition end event
 	masterButton.addEventListener('transitionend', function() {
 		masterButton.classList.add('inGame');
-	}, {once: true});		
+	}, {once: true});
 }
 
 
@@ -248,7 +248,7 @@ function pressedModeButton(ev) {
 	ev.preventDefault(); // no click emulation needed, if as touch handler
 	// visuals
 	modeButton.classList.add('pressed2');
-  modeButton.addEventListener('transitionend', btnModeTransEnd);	
+  modeButton.addEventListener('transitionend', btnModeTransEnd);
 	// game logic triggered inside the above handler
 }
 
@@ -256,22 +256,23 @@ function pressedModeButton(ev) {
 will change the game mode
 will set css classes as they were before button was pressed
 will remove the listener for transition ends*/
-function btnModeTransEnd(ev) {			
+function btnModeTransEnd(ev) {
 	/* only execute for the transition with longest duration. currently it's transform */
-	if (ev.propertyName !== 'transform') 
+	if (ev.propertyName !== 'transform')
 		return;
-	
+
 	changeGameMode();
 	modeButton.classList.remove('pressed2');
 	modeButton.removeEventListener('transitionend', btnModeTransEnd);
 }
 
 // Handler for clicks on choice boxes. Also used for touch event handling
-function clickOnChoice(ev) {	
-  if (! (gameState=='playing')) return;	
-  // else		
-	/*ev.target.classList.remove('chosen'); */// if necessary			
-	
+// visual feedback handled via css states
+function clickOnChoice(ev) {
+  if (! (gameState=='playing')) return;
+  // else
+	/*ev.target.classList.remove('chosen'); */// if necessary
+
   if (ev.target.textContent == correctAnswer) {
     scoreValueDisplay.textContent = (Number(scoreValueDisplay.textContent) + 1);
     feedbackCorrect.style.visibility = 'visible';
@@ -285,7 +286,7 @@ function clickOnChoice(ev) {
 
 // Handler for gameModeButton clicks
 // toggles gameModes
-function changeGameMode() {	
+function changeGameMode() {
   if (gameMode == 'multiply') {
     gameMode = 'sqrt';
   } else {
@@ -349,18 +350,17 @@ function initChoicesSqrtQuestion() {
 
 /*Eventhandling*/
 function initEvents() {
-	
-	// parallax effect
-	window.addEventListener('scroll', monitorScroll);
 
-	// TOGGLE BETWEEN THE 2 USER INTERFACE MODES
+  checkForParallax();
 
+  // TOGGLE BETWEEN THE 2 USER INTERFACE MODES
   document.addEventListener('mousedown', setUIMode);
 	document.addEventListener('touchstart', setUIMode);
   document.addEventListener('mousemove', setUIMode);
+  window.addEventListener('resize', checkForParallax);
 
   function setUIMode(ev) {
-    var touchy = ev.type =='touchstart';		
+    var touchy = ev.type =='touchstart';
 
     if (touchy) {
       masterButton.classList.add('touchy');
@@ -368,9 +368,9 @@ function initEvents() {
 			choiceBoxes.forEach(function(elem) {
 				elem.classList.add('touchy');
         elem.classList.remove('clicky');
-			}); 
+			});
 			console.log('touchy now');
-        
+
       // prevent subsequent emulated clicks to return to clicky state.
       stayTouchy = true;
       window.setTimeout(function() {
@@ -396,23 +396,26 @@ function initEvents() {
 
 	// CLICK MODE
 
-	modeButton.onclick = pressedModeButton; 
+	modeButton.onclick = pressedModeButton;
 	masterButton.onclick = pressedMaster;
-	
+
 	choiceBoxes.forEach(function(elem) {
 		elem.addEventListener('click', clickOnChoice);
 	});
-		
+
 	// TOUCH MODE
-	
-  // modeButton and masterButton need no touch handling, 
-	// gonna use click triggered by default		
+
+  // modeButton and masterButton need no touch handling,
+	// gonna use click triggered by default
 }
 
-function choiceClickedVisuals(ev) {
-	ev.preventDefault();
-	
-	ev.target.classList.add('chosen');	
+function checkForParallax() {
+  if (window.innerWidth >= 992) {
+    // parallax effect
+    window.addEventListener('scroll', monitorScroll);
+  } else {
+    window.removeEventListener('scroll', monitorScroll);
+  }
 }
 
 // Find the right method, call on correct element
@@ -428,20 +431,37 @@ function launchIntoFullscreen(element) {
   }
 }
 
+/* Event handler for pressing the arrow on the welcome view.
+Tries going fullscreen, then scrolls down smoothly to game panel*/
 function goDown() {
-	document.getElementById('panel').scrollIntoView({
-		  behavior: 'smooth'
-		});	
+  var goneDown = false;
+  document.documentElement.addEventListener('fullscreenchange', () => {
+    checkForParallax(); // if fullscreen, perhaps parallax is possible
+    // scroll down
+    document.getElementById('panel').scrollIntoView({
+        behavior: 'smooth'
+      });
+    goneDown = true;
+  }, {once:true}); // executed once, at most - not necessary to remove listener within handler
+  launchIntoFullscreen(document.documentElement);
+  setTimeout(() => {
+    if (!goneDown) {
+      document.getElementById('panel').scrollIntoView({
+          behavior: 'smooth'
+        });
+    }
+  }, 500);
+
 }
 
 /* handles parallax effect */
 function monitorScroll() {
-	var wScroll = window.scrollY;		
+	var wScroll = window.scrollY;
 	var panelY = intro.offsetHeight; // Y where the panel begins
-	
+
 	background1.style.backgroundPositionY = (wScroll)*1/2+'px';
 	background2.style.backgroundPositionY = (wScroll)*1/25+'px';
-	
+
 	/*if (!panel.visible && wScroll + window.innerHeight > panelY*1.5) { // panel has come into view
 		panel.classList.remove('hidden');
 		panel.classList.add('shown');

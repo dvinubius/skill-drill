@@ -10,14 +10,14 @@
 
 :root {
 	--font_size: 18;
-	
+
 	--col-challenge: hsl(0, 59%, 58%);
 	--col-comp: hsl(180, 59%, 58%);
 	--col-challenge-neutral: hsl(0, 36%, 58%);
-	--col-challenge-dark: hsl(0, 59%, 20%);
-	--col-comp-neutral: hsl(180, 25%, 58%); 
-	
-	
+	--col-challenge-dark: hsl(0, 59%, 15%);
+	--col-comp-neutral: hsl(180, 25%, 58%);
+
+
 	--col-intro: hsl(180, 90%, 90%);
 	--col-myblack: hsl(0, 0%, 6%);
 	--bgGeneral: hsl(0, 0%, 49%);
@@ -26,20 +26,21 @@
 
 /*	--bgDisplays: hsl(173, 79%, 49%);*/
 	--bgDisplays: hsla(180, 59%, 58%, 0.95);
-	--colShadowDisplays: hsla(0, 57%, 18%, 0.5);	
+	--colShadowDisplays: hsla(0, 57%, 18%, 0.5);
 
 	--colTimer: hsl(0, 73%, 42%);
 
 	--bgButtons: hsl(0, 0%, 86%);
 	--col-bg-button-hover: hsl(0, 0%, 95%);
 	--bgActiveButtons: var(--col-comp);
-	--colShadowStartButton: hsl(72, 62%, 13%);
+	--colShadowStartButton: hsl(182, 61%, 13%);
+	--colShadowStartButton-blurred: hsl(182, 51%, 13%);
 	--buttonFontFam: monospace;
 	--buttonFontSize: 1.4rem;
 	--gameModeButtonFontSize: 1.8rem;
 	--font-size-question: 3rem;
-	
-	--col-question-frame-border: hsla(0,60%, 10%,0.7);
+
+	--col-question-frame-border: var(--col-challenge);
 
 	--bgChoiceBoxes: hsl(0, 0%, 86%);
 	--bgActiveChoiceBoxes: hsl(0, 0%, 95%);
@@ -47,14 +48,14 @@
 	--col-border-choice-boxes: hsl(0, 59%, 48%);
 	--funnyFontFam: cursive, sans-serif;
 	--font-size-choices: 1.8rem;
-	
+
 	--font-size-game-over: 1.5em;
 
 	--choiceFrame_order:1;
 	--questionFrame_order:2;
 	--hud_order:4;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) and (min-height: 600px) {
 	:root {
 		--buttonFontSize:1.6rem;
 		--gameModeButtonFontSize: 2.2rem;
@@ -65,10 +66,12 @@
 }
 
 body {
+	overflow-x: hidden;
 	margin:0;
 	padding:0;
-	width: 100vw;	
-	height: 450vh;
+	height: 250vh;
+	width: 100vw;
+	min-height: 2400px;
   font-size:calc(var(--font_size)*1px);
 	color: var(--colGeneral);
 /*	background: linear-gradient(to bottom, var(--col-myblack), var(--bgGeneral));*/
@@ -76,7 +79,7 @@ body {
 	background-image: url('../images/parallax/1aJd8X.png');
 	background-size: contain;
 	background-repeat: repeat-x;
-	
+
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -87,7 +90,7 @@ body {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-tap-highlight-color: transparent;
 	/* no text should in the UI be selected by the user */
-  user-select: none;	
+  user-select: none;
 }
 .background1 {z-index: 0;}
 .background2 {z-index: 1;}
@@ -98,17 +101,17 @@ body {
 	position: absolute;
 	background-position: center top;
 	width: 100%;
-	height: 100%;	
-	
+	height: 100%;
+
 	background-attachment: fixed;
-	background-position: center;				
+	background-position: center;
 }
 
-.background1 {	
+.background1 {
 /*	max-width: 750px;*/
 	border-left: 1px solid white;
 	border-right: 1px solid white;
-	background-image: url('../images/parallax/2.jpg');	
+	background-image: url('../images/parallax/2.jpg');
 	opacity: 0.07;
 }
 .background2 {
@@ -117,11 +120,11 @@ body {
 	border-right: 1px solid red;
 	background-image: url('../images/parallax/3.jpg');
 	background-color: hsla(0, 59%, 58%, 0.2);
-	background-blend-mode: normal;	
+	background-blend-mode: normal;
 	opacity: 0.2;
 }
 
-#panel {	
+#panel {
   width: 100%;
 	height: 90vh;
 	max-height: 700px;
@@ -130,17 +133,17 @@ body {
 	box-sizing: border-box;
   padding: 0 1em;
 	overflow: visible;
-	
+
   display:flex;
   flex-direction: column-reverse;
   align-items: center;
   justify-content: flex-start;
-	
+
 	color: var(--colGeneral);
   font-family: var(--funnyFontFam);
 
   /* applies to all containers inside */
-  text-align: center;	
+  text-align: center;
 	position: relative;
 }
 
@@ -175,9 +178,9 @@ body {
   width: 45% !important;
 	color: var(--colGeneral);
   background-color: var(--bgDisplays);
-	border: 1px solid var(--col-question-frame-border);
+	border: 1px solid var(--col-question-frame-border) !important;
   box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
-	border-radius: 5px;	
+	border-radius: 5px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -222,7 +225,7 @@ body {
 #master {
 	margin-top: 0.5em !important;
 	margin-bottom: 1.5em !important;
-} 
+}
 
 #questionFrame > p {
 	position:absolute;
@@ -235,9 +238,9 @@ body {
 	font-size: var(--font-size-question);
   line-height: 1em;
 }
-@media (min-width: 768px) {
+@media (min-width: 768px) and (min-height: 600px) {
 	#questionFrame p {
-		bottom: 20%;	
+		bottom: 20%;
 	}
 }
 
@@ -257,10 +260,10 @@ body {
 #feedbackWrong {
   left: 0.1em;
 }
-	
-@media (min-width: 768px) {
-	#feedbackCorrect, #feedbackWrong {		
-		bottom: 0;		
+
+@media (min-width: 768px) and (min-height: 600px) {
+	#feedbackCorrect, #feedbackWrong {
+		bottom: 0;
 	}
 	#feedbackCorrect img, #feedbackWrong img {
 		height:3em;
@@ -310,9 +313,9 @@ body {
 	height: 4em;
 	position: absolute;
 	bottom: 0;
-	color: hsl(0,0%,85%);	
-	background-color: var(--col-challenge-dark);	
-	border-top: 1px solid var(--col-myblack);
+	color: hsl(0,0%,85%);
+	background-color: var(--col-challenge-dark);
+	border-top: 1px solid hsl(0, 0%, 55%);
 	z-index: 200;
 	text-align: center;
 }
