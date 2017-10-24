@@ -12,6 +12,11 @@
 	--font_size: 18;
 	
 	--col-challenge: hsl(0, 59%, 58%);
+	--col-comp: hsl(180, 59%, 58%);
+	--col-challenge-neutral: hsl(0, 36%, 58%);
+	--col-comp-neutral: hsl(180, 25%, 58%); 
+	
+	
 
 	--col-myblack: hsl(0, 0%, 6%);
 	--bgGeneral: hsl(0, 0%, 49%);
@@ -19,24 +24,26 @@
 	--colShadowPanel: hsl(183, 49%, 26%);
 
 /*	--bgDisplays: hsl(173, 79%, 49%);*/
-	--bgDisplays: hsla(108, 45%, 48%, 0.9);
+	--bgDisplays: hsla(180, 59%, 58%, 0.95);
 	--colShadowDisplays: hsla(0, 57%, 18%, 0.5);	
 
 	--colTimer: hsl(0, 73%, 42%);
 
 	--bgButtons: hsl(0, 0%, 86%);
-	--bgActiveButtons: hsla(97, 68%, 41%, 0.95);	
+	--col-bg-button-hover: hsl(0, 0%, 95%);
+	--bgActiveButtons: var(--col-comp);
 	--colShadowStartButton: hsl(72, 62%, 13%);
 	--buttonFontFam: monospace;
 	--buttonFontSize: 1.4rem;
 	--gameModeButtonFontSize: 1.8rem;
-	--font-size-question: 4rem;
+	--font-size-question: 3rem;
 	
-	--col-question-frame-border: hsla(0,60%, 20%,0.7);
+	--col-question-frame-border: hsla(0,60%, 10%,0.7);
 
 	--bgChoiceBoxes: hsl(0, 0%, 86%);
-	--bgActiveChoiceBoxes: hsl(0, 0%, 75%);
+	--bgActiveChoiceBoxes: hsl(0, 0%, 95%);
 	--colShadowChoiceBoxes: hsl(0, 87%, 18%);
+	--col-border-choice-boxes: hsl(0, 59%, 48%);
 	--funnyFontFam: cursive, sans-serif;
 	--font-size-choices: 1.8rem;
 	
@@ -51,7 +58,8 @@
 		--buttonFontSize:1.6rem;
 		--gameModeButtonFontSize: 2.2rem;
 		--font-size-choices: 2rem;
-		--font-size-game-over: 2em;
+		--font-size-game-over: 2rem;
+		--font-size-question: 3.5rem;
 	}
 }
 
@@ -87,6 +95,7 @@ body {
 
 .background-para {
 	position: absolute;
+	background-position: center top;
 	width: 100%;
 	height: 100%;	
 	
@@ -115,10 +124,10 @@ body {
   width: 100%;
 	height: 90vh;
 	max-height: 700px;
-	margin: 25vh auto 3em;
+	margin: 25vh auto 2em;
 	max-width: 400px;
 	box-sizing: border-box;
-  padding: 1em 1em;
+  padding: 0 1em;
 	overflow: visible;
 	
   display:flex;
@@ -196,20 +205,24 @@ body {
 	display:flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-around;
 	order:var(--questionFrame_order);
-  height: 35%;
+  height: 25%;
 	width: 85% !important;
 	margin-top: 10%;
-	margin-bottom: 5%;
+	margin-bottom: 0;
 	color: var(--colGeneral);
 
   background-color: var(--bgDisplays);
-	border: 1px solid var(--col-question-frame-border);
+	border: 1px solid var(--col-challenge);
 	box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
 	padding-top: 1em;
-	padding-bottom: 2em;
+	padding-bottom: 1em;
 }
+#master {
+	margin-top: 0.5em !important;
+	margin-bottom: 1.5em !important;
+} 
+
 #questionFrame > p {
 	position:absolute;
 	bottom: 15%;
@@ -218,7 +231,7 @@ body {
 	margin: 0;
 	padding: 0;
 	display: none;
-	font-size: 4rem;
+	font-size: var(--font-size-question);
   line-height: 1em;
 }
 @media (min-width: 768px) {
@@ -229,7 +242,7 @@ body {
 
 #feedbackCorrect, #feedbackWrong {
   position:absolute;
-  top: 18%;
+  bottom: 0;
   visibility: hidden;
 	z-index: 100;
 }
@@ -238,25 +251,25 @@ body {
   width:2.3em;
 }
 #feedbackCorrect {
-  right: 1.2em;
+  right: 0.25em;
 }
 #feedbackWrong {
-  left: 1.2em;
+  left: 0.1em;
 }
 	
 @media (min-width: 768px) {
 	#feedbackCorrect, #feedbackWrong {		
-		top: 17%;		
+		bottom: 0;		
 	}
 	#feedbackCorrect img, #feedbackWrong img {
 		height:3em;
 		width:3em;
 	}
 	#feedbackCorrect {
-  	right: 1.1em;
+  	right: 0.35em;
 	}
 	#feedbackWrong {
-		left: 1em;
+		left: 0.15em;
 	}
 }
 

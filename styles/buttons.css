@@ -13,6 +13,7 @@
 	margin: 0;
   color: var(--colButtons);
   background-color: var(--bgButtons);
+	border: 1px solid hsla(0, 0%, 0.36%, 0.1);
   box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
   font-size: var(--buttonFontSize);
   font-family: var(--buttonFontFam);
@@ -20,12 +21,14 @@
 	opacity: 1;
   transition: transform 0.3s,
 							box-shadow 0.3s,							
+							background-color 0.3s,
 							top 0.5s,
 							opacity 0.2s ease-in-out;
 }
 #master.inGame {	
 	transition: transform 0.3s,
-							box-shadow 0.3s,							
+							box-shadow 0.3s,
+							background-color 0.3s,
 							top 0.5s,
 							opacity 0.5s ease-in-out 0.5s;
 	opacity: 0.5;
@@ -56,6 +59,7 @@
 	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
 	/*y offset compensates for translate and for increase in spread*/
 	cursor: pointer;
+	background-color: var(--col-bg-button-hover);
 }
 #master.clicky.rise:hover {
 	/* translate lifts button off the background*/
@@ -87,7 +91,7 @@
 	position:relative;
 	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1,
 						 levitate 0.6s ease-in-out 0.5s infinite;
-	top: calc(-5.5* 1em);	
+	top: calc(-4* 1em);	
 }
 #master.clicky.rise.finishedState:hover {
 	/* deactivate all */
@@ -97,10 +101,10 @@
 @keyframes up {
 	0% { top: 0;
 			 transform: scale(0.5);}
-	100% {top: calc(-5.5 * 1em);}
+	100% {top: calc(-4 * 1em);}
 }
 @keyframes down {
-	0% { top: calc(-5.5 * 1em);}
+	0% { top: calc(-4 * 1em);}
 	100% {top: 0;}
 }
 @keyframes levitate {
@@ -115,7 +119,7 @@
 	height: 1.6em;
 	color: var(--colGeneral);
   background-color: var(--bgDisplays);	
-  border: 1px solid hsla(0, 0%, 0.16%);
+  border: 1px solid hsla(0, 0%, 0.36%, 0.1);
 	box-shadow: 0px 5px 5px -3px var(--colShadowStartButton);
 	box-sizing: border-box;
   font-size: var(--gameModeButtonFontSize);
