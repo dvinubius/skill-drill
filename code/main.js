@@ -97,7 +97,7 @@ function initGlobals() {
 	after pressing the master button */
 function resetGame() {
 	// clean up UI
-  countDown = 10;
+  countDown = 20;
   window.clearInterval(timer);
   modeButton.innerHTML = (gameMode == 'multiply') ? 'a x b' : '&radic;a';
   question.style.display = 'none';
@@ -266,12 +266,11 @@ function btnModeTransEnd(ev) {
 	modeButton.removeEventListener('transitionend', btnModeTransEnd);
 }
 
-// Handler for clicks on choice boxes. Also used for touch event handling
-// visual feedback handled via css states
+// Handler for clicks on choice boxes. Also used for touch event handling (no prevent default)
+// visual feedback handled via css states (active)
 function clickOnChoice(ev) {
   if (! (gameState=='playing')) return;
   // else
-	/*ev.target.classList.remove('chosen'); */// if necessary
 
   if (ev.target.textContent == correctAnswer) {
     scoreValueDisplay.textContent = (Number(scoreValueDisplay.textContent) + 1);
