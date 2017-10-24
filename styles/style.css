@@ -84,15 +84,15 @@ html {
 	background-color: var(--col-myblack);
 }
 body {
+	overflow-x: hidden;
 	margin:0;
 	padding:0;
 	height: 250vh;
-	width: 98vw;
+	width: 100vw;
 	min-height: 2400px;
   font-size:calc(var(--font_size)*1px);
 	color: var(--colGeneral);
-	box-sizing: border-box;
-	margin-left:auto;
+	box-sizing: border-box;	
 /*	background: linear-gradient(to bottom, var(--col-myblack), var(--bgGeneral));*/
 /*	background-color: var(--col-myblack);*/
 	background-image: url('../images/parallax/darkest.png');

@@ -1,3 +1,5 @@
+var touchy; // touch or mouse interface?
+
 var gameState; // 'ready', 'playing', 'over'
 var gameMode; // 'multiply', 'sqrt'
 
@@ -32,6 +34,8 @@ window.onload = () => {
 
 /* Init references to the DOM*/
 function initGlobals() {
+  touchy = false;
+
 	gameMode = 'multiply';
 
 	background1 = document.getElementsByClassName('background1')[0];
@@ -359,7 +363,7 @@ function initEvents() {
   window.addEventListener('resize', checkForParallax);
 
   function setUIMode(ev) {
-    var touchy = ev.type =='touchstart';
+    touchy = ev.type =='touchstart';
 
     if (touchy) {
       masterButton.classList.add('touchy');
@@ -368,8 +372,6 @@ function initEvents() {
 				elem.classList.add('touchy');
         elem.classList.remove('clicky');
 			});
-			console.log('touchy now');
-
       // prevent subsequent emulated clicks to return to clicky state.
       stayTouchy = true;
       window.setTimeout(function() {
@@ -379,7 +381,9 @@ function initEvents() {
       // would have to be "real" user clicks
     } else {
       // only change mode if event was a real user click.
-      if (!stayTouchy) {
+      if (stayTouchy) {
+        touchy = true;
+      } else {
 				// changing the mode only for masterButton and choice boxes.
 				// The mode button behaves the same
         masterButton.classList.remove('touchy');
@@ -388,7 +392,6 @@ function initEvents() {
           elem.classList.remove('touchy');
           elem.classList.add('clicky');
         });
-				console.log('clicky now');
       }
     }
   }
@@ -449,8 +452,11 @@ function goDown() {
   //     });
   //   goneDown = true;
   // }, {once:true}); // executed once, at most - not necessary to remove listener within handler
+  console.log(touchy, 'before fullscreen');
+  if (touchy) {
+      launchIntoFullscreen(document.documentElement);
+  }
 
-  launchIntoFullscreen(document.documentElement);
   setTimeout(() => {
     document.getElementById('panel').scrollIntoView({
         behavior: 'smooth'

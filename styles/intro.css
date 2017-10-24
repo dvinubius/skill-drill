@@ -18,9 +18,9 @@
 	align-self: center;
 	border: 1px solid var(--col-challenge);
 	border-radius: 50%;
-	height: 2em;
-	width: 2em;
-	padding: 0 !important;
+	height: 2.1em;
+	width: 2.1em;
+	padding: 0 !important; 
 	display: flex;
 	align-items: center;
 	justify-content: center;
