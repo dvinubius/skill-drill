@@ -1,3 +1,20 @@
+0. BugFixing, compatibility
+
+A. Firefox
+	- scrollbar styling not supported
+	- going fullscreen doesn't work
+B. Edge
+	- forEach not supported.
+
+
+
+
+
+
+
+
+
+
 1. Functionality
 
 A.

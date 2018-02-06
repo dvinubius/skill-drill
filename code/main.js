@@ -1,30 +1,30 @@
-var touchy; // touch or mouse interface?
+let touchy; // touch or mouse interface?
 
-var gameState; // 'ready', 'playing', 'over'
-var gameMode; // 'multiply', 'sqrt'
+let gameState; // 'ready', 'playing', 'over'
+let gameMode; // 'multiply', 'sqrt'
 
-var correctAnswer;
+let correctAnswer;
 
-var background1;
-var background2;
-var arrow;
+let background1;
+let background2;
+let arrow;
 
-var intro;
-var panel;
-var countDown;
-var timer;
-var questionFrame;
-var question;
-var choices;
-var masterButton;
-var scoreDisplay;
-var scoreValueDisplay;
-var timeDisplay;
-var timeValueDisplay;
-var feedbackCorrect;
-var feedbackWrong;
-var gameOverDisplay;
-var finalScoreDisplay;
+let intro;
+let panel;
+let countDown;
+let timer;
+let questionFrame;
+let question;
+let choices;
+let masterButton;
+let scoreDisplay;
+let scoreValueDisplay;
+let timeDisplay;
+let timeValueDisplay;
+let feedbackCorrect;
+let feedbackWrong;
+let gameOverDisplay;
+let finalScoreDisplay;
 
 window.onload = () => {
   initGlobals();
@@ -80,7 +80,7 @@ function initGlobals() {
   // AUX for resetGame()
   choices.reset = function() {
     squares = choices.children;
-    for (var i=0; i<squares.length; i++) {
+    for (let i=0; i<squares.length; i++) {
       squares[i].querySelector('p').textContent = '';
       squares[i].classList.add('resetChoice');
     }
@@ -90,7 +90,7 @@ function initGlobals() {
    to look responsive (cursor-pointer, colorchange on hover) */
   choices.start = function() {
     squares = choices.children;
-    for (var i=0; i<squares.length; i++) {
+    for (let i=0; i<squares.length; i++) {
       squares[i].classList.remove('resetChoice');
     }
   }
@@ -154,7 +154,7 @@ function nextQuestion() {
 
 // Starts the countdown. When finished, finishes the game
 function startCountdown() {
-  var timerAction = () => {
+  let timerAction = () => {
     if (countDown > 0) {
       countDown--;
       timeValueDisplay.textContent = countDown;
@@ -170,7 +170,7 @@ function startCountdown() {
 
 /*Handler when pressed (click or touch) masterButton
   Button may be in start-state, reset-state or again-state.
-	Dispatching execution flow according to button state.
+  Dispatching execution flow according to button state.
 
 	- uses css classes to animate (transition) the button while being pressed
 	- starts the game or resets the game, depending on the game state.
@@ -277,11 +277,13 @@ function clickOnChoice(ev) {
   // else
 
   if (ev.target.textContent == correctAnswer) {
+    navigator.vibrate(500);
     scoreValueDisplay.textContent = (Number(scoreValueDisplay.textContent) + 1);
     feedbackCorrect.style.visibility = 'visible';
     setTimeout(() => {feedbackCorrect.style.visibility = 'hidden';}, 500);
     nextQuestion();
   } else { // wrong answer
+    navigator.vibrate(200);
     feedbackWrong.style.visibility = 'visible';
     setTimeout(() => {feedbackWrong.style.visibility = 'hidden';}, 300);
   };
@@ -303,9 +305,9 @@ function changeGameMode() {
 // loads the text into the UI
 function randomMultiplyQuestion() {
   // generate random values
-  var f1 = Math.ceil(Math.random() * 10);
-  var f2 = Math.ceil(Math.random() * 10);
-  var qText = f1+'x'+f2;
+  let f1 = Math.ceil(Math.random() * 10);
+  let f2 = Math.ceil(Math.random() * 10);
+  let qText = f1+'x'+f2;
   correctAnswer = f1*f2;
   // set question in UI
   question.innerHTML = qText;
@@ -314,7 +316,7 @@ function randomMultiplyQuestion() {
 // between 0 and 200. Also sets the global correctAnswer and
 // loads the text into the UI
 function randomSqrtQuestion() {
-  var initial = Math.floor(Math.random() * (625+1));
+  let initial = Math.floor(Math.random() * (625+1));
   question.innerHTML = '&radic;'+initial;
   correctAnswer = (Math.sqrt(initial)).toFixed(2);
 }
@@ -323,10 +325,10 @@ function randomSqrtQuestion() {
    and set proper random values for in other ones */
 function initChoicesMultiplyQuestion() {
   // which choice should contain the correct answer?
-  var correctSquare = Math.floor(Math.random()*4); // 0, 1, 2 or 3
+  let correctSquare = Math.floor(Math.random()*4); // 0, 1, 2 or 3
   // set the choices in UI
-  var squares = choices.children;
-  for (var i=0; i<squares.length; i++) {
+  let squares = choices.children;
+  for (let i=0; i<squares.length; i++) {
     if (i == correctSquare) {
       squares[i].querySelector('p').textContent =  correctAnswer;
     } else {
@@ -339,10 +341,10 @@ function initChoicesMultiplyQuestion() {
    and set proper random values (2 decimals precision) in other ones */
 function initChoicesSqrtQuestion() {
   // which choice should contain the correct answer?
-  var correctSquare = Math.floor(Math.random()*4); // 0, 1, 2 or 3
+  let correctSquare = Math.floor(Math.random()*4); // 0, 1, 2 or 3
   // set the choices in UI
-  var squares = choices.children;
-  for (var i=0; i<squares.length; i++) {
+  let squares = choices.children;
+  for (let i=0; i<squares.length; i++) {
     if (i == correctSquare) {
       squares[i].querySelector('p').textContent =  correctAnswer;
     } else {
@@ -452,7 +454,11 @@ function goDown() {
   //     });
   //   goneDown = true;
   // }, {once:true}); // executed once, at most - not necessary to remove listener within handler
-  console.log(touchy, 'before fullscreen');
+  
+	
+	
+	
+	console.log(touchy, 'before fullscreen');
   if (touchy) {
       launchIntoFullscreen(document.documentElement);
   }
@@ -463,12 +469,14 @@ function goDown() {
       });
   }, 400);
 
+	
+	
 }
 
 /* handles parallax effect */
 function monitorScroll() {
-	var wScroll = window.scrollY;
-	var panelY = intro.offsetHeight; // Y where the panel begins
+	let wScroll = window.scrollY;
+	let panelY = intro.offsetHeight; // Y where the panel begins
 
 	background1.style.backgroundPositionY = (wScroll)*1/2+'px';
 	background2.style.backgroundPositionY = (wScroll)*1/25+'px';
