@@ -277,13 +277,13 @@ function clickOnChoice(ev) {
   // else
 
   if (ev.target.textContent == correctAnswer) {
-    navigator.vibrate(500);
+    navigator.vibrate(50);
     scoreValueDisplay.textContent = (Number(scoreValueDisplay.textContent) + 1);
     feedbackCorrect.style.visibility = 'visible';
     setTimeout(() => {feedbackCorrect.style.visibility = 'hidden';}, 500);
     nextQuestion();
   } else { // wrong answer
-    navigator.vibrate(200);
+    // navigator.vibrate(20);
     feedbackWrong.style.visibility = 'visible';
     setTimeout(() => {feedbackWrong.style.visibility = 'hidden';}, 300);
   };
