@@ -1,7 +1,6 @@
-@import url('buttons.css');
-@import url('choices.css');
-@import url('intro.css');
-
+@import url("buttons.css");
+@import url("choices.css");
+@import url("intro.css");
 
 /*FOLLOWING STYLES are for devices of all sizes,
  unless otherwise defined in media queries.
@@ -9,270 +8,294 @@
  screen-width < 768px only. (xs) */
 
 :root {
-	--font_size: 18;
+  --font_size: 16;
 
-	--col-challenge: hsl(0, 59%, 58%);
-	--col-comp: hsl(180, 59%, 58%);
-	--col-challenge-neutral: hsl(0, 36%, 58%);
-	--col-challenge-dark: hsl(0, 59%, 15%);
-	--col-comp-neutral: hsl(180, 25%, 58%);
+  --col-challenge: hsl(0, 59%, 58%);
+  /* --col-comp: hsl(180, 59%, 58%); */
+  --col-comp: hsl(180, 59%, 88%);
+  --col-challenge-neutral: hsl(0, 36%, 58%);
+  --col-challenge-dark: hsl(0, 59%, 5%);
+  --col-comp-neutral: hsl(180, 25%, 58%);
 
+  --col-intro: hsl(180, 90%, 90%);
+  --col-myblack: hsl(0, 0%, 6%);
+  --bgGeneral: hsl(0, 0%, 49%);
+  --colGeneral: hsla(0, 0%, 0%, 0.7);
+  --colShadowPanel: hsl(183, 49%, 26%);
 
-	--col-intro: hsl(180, 90%, 90%);
-	--col-myblack: hsl(0, 0%, 6%);
-	--bgGeneral: hsl(0, 0%, 49%);
-	--colGeneral: hsla(0,0%,0%, 0.7);
-	--colShadowPanel: hsl(183, 49%, 26%);
+  /* --bgDisplays: hsla(180, 59%, 58%, 0.95); */
+  --bgDisplays: hsla(180, 59%, 88%, 0.95);
+  --colShadowDisplays: hsla(0, 57%, 18%, 0.5);
 
-/*	--bgDisplays: hsl(173, 79%, 49%);*/
-	--bgDisplays: hsla(180, 59%, 58%, 0.95);
-	--colShadowDisplays: hsla(0, 57%, 18%, 0.5);
+  --colTimer: hsl(0, 73%, 42%);
 
-	--colTimer: hsl(0, 73%, 42%);
+  --bgButtons: hsl(0, 0%, 86%);
+  --col-bg-button-hover: hsl(0, 0%, 95%);
+  --bgActiveButtons: var(--col-comp);
+  --colShadowStartButton: hsl(182, 61%, 13%);
+  --colShadowStartButton-blurred: hsl(182, 51%, 13%);
+  --buttonFontSize: 1.4rem;
+  --gameModeButtonFontSize: 1.8rem;
+  --font-size-question: 3rem;
 
-	--bgButtons: hsl(0, 0%, 86%);
-	--col-bg-button-hover: hsl(0, 0%, 95%);
-	--bgActiveButtons: var(--col-comp);
-	--colShadowStartButton: hsl(182, 61%, 13%);
-	--colShadowStartButton-blurred: hsl(182, 51%, 13%);
-	--buttonFontFam: monospace;
-	--buttonFontSize: 1.4rem;
-	--gameModeButtonFontSize: 1.8rem;
-	--font-size-question: 3rem;
+  --col-question-frame-border: var(--col-challenge);
+  --bg-question-frame: linear-gradient(180deg, var(--bgDisplays), whitesmoke);
 
-	--col-question-frame-border: var(--col-challenge);
+  /* --bgChoiceBoxes: hsl(0, 0%, 86%); */
+  --bgChoiceBoxes: whitesmoke;
+  --bgActiveChoiceBoxes: hsl(0, 0%, 95%);
+  --colShadowChoiceBoxes: hsl(0, 87%, 18%);
+  --col-border-choice-boxes: hsl(0, 59%, 48%);
+  --font-size-choices: 1.8rem;
 
-	--bgChoiceBoxes: hsl(0, 0%, 86%);
-	--bgActiveChoiceBoxes: hsl(0, 0%, 95%);
-	--colShadowChoiceBoxes: hsl(0, 87%, 18%);
-	--col-border-choice-boxes: hsl(0, 59%, 48%);
-	--funnyFontFam: cursive, sans-serif;
-	--font-size-choices: 1.8rem;
+  --font-size-game-over: 1.5em;
 
-	--font-size-game-over: 1.5em;
-
-	--choiceFrame_order:1;
-	--questionFrame_order:2;
-	--hud_order:4;
+  --choiceFrame_order: 1;
+  --questionFrame_order: 2;
+  --hud_order: 4;
 }
 @media screen and (min-width: 768px) and (min-height: 600px) {
-	:root {
-		--buttonFontSize:1.6rem;
-		--gameModeButtonFontSize: 2.2rem;
-		--font-size-choices: 2rem;
-		--font-size-game-over: 2rem;
-		--font-size-question: 3.5rem;
-	}
+  :root {
+    --buttonFontSize: 1.6rem;
+    --gameModeButtonFontSize: 2.2rem;
+    --font-size-choices: 2rem;
+    --font-size-game-over: 2rem;
+    --font-size-question: 3.5rem;
+  }
 }
 
-
-::-webkit-scrollbar
-{
-  width: 1vw;  /* for vertical scrollbars */
+::-webkit-scrollbar {
+  width: 1vw; /* for vertical scrollbars */
   height: 12px; /* for horizontal scrollbars */
 }
-::-webkit-scrollbar-track
-{
+::-webkit-scrollbar-track {
   background: hsla(0, 100, 80, 0.8);
 }
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.9);
 }
 
 html {
-	background-color: var(--col-myblack);
+  background-color: var(--col-myblack);
+  font-family: "Courier New", Courier, monospace;
 }
 body {
-	overflow-x: hidden;
-	margin:0;
-	padding:0;
-	height: 250vh;
-	width: 100vw;
-	min-height: 2400px;
-  font-size:calc(var(--font_size)*1px);
-	color: var(--colGeneral);
-	box-sizing: border-box;	
-/*	background: linear-gradient(to bottom, var(--col-myblack), var(--bgGeneral));*/
-/*	background-color: var(--col-myblack);*/
-	background-image: url('../images/parallax/darkest.png');
-	background-size: contain;
-	background-repeat: repeat-x;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 250vh;
+  width: 100vw;
+  min-height: 2400px;
+  font-size: calc(var(--font_size) * 1px);
+  color: var(--colGeneral);
+  box-sizing: border-box;
+  /*	background: linear-gradient(to bottom, var(--col-myblack), var(--bgGeneral));*/
+  /*	background-color: var(--col-myblack);*/
+  background-image: url("../images/parallax/darkest.png");
+  background-size: contain;
+  background-repeat: repeat-x;
 
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-	position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
 
   /* no blue flashes on touch devices */
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;
-	/* no text should in the UI be selected by the user */
+  /* no text should in the UI be selected by the user */
   user-select: none;
 }
-.background1 {z-index: 0;}
-.background2 {z-index: 1;}
-.intro {z-index: 10;}
-#panel {z-index: 11;}
+.background1 {
+  z-index: 0;
+}
+.background2 {
+  z-index: 1;
+}
+.intro {
+  z-index: 10;
+}
+#panel {
+  z-index: 11;
+}
 
 .background-para {
-	position: absolute;
-	background-position: center top;
-	width: 100%;
-	height: 100%;
+  position: absolute;
+  background-position: center top;
+  width: 100%;
+  height: 100%;
 
-	background-attachment: fixed;
-	background-position: center;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 .background1 {
-/*	max-width: 750px;*/
-	background-image: url('../images/parallax/2.jpg');
-	opacity: 0.07;
+  /*	max-width: 750px;*/
+  background-image: url("../images/parallax/2.jpg");
+  opacity: 0.07;
 }
 .background2 {
-	display:none;
-	/* for now*/
-	max-width: 450px;
-	border-left: 1px solid red;
-	border-right: 1px solid red;
-	background-image: url('../images/parallax/3.jpg');
-	background-color: hsla(0, 59%, 58%, 0.2);
-	background-blend-mode: normal;
-	opacity: 0.2;
+  display: none;
+  /* for now*/
+  max-width: 450px;
+  border-left: 1px solid red;
+  border-right: 1px solid red;
+  background-image: url("../images/parallax/3.jpg");
+  background-color: hsla(0, 59%, 58%, 0.2);
+  background-blend-mode: normal;
+  opacity: 0.2;
 }
 
 #panel {
   width: 100%;
-	height: 90vh;
-	max-height: 700px;
-	min-height: 432px;
-	margin: 25vh auto 2em;
-	max-width: 400px;
-	box-sizing: border-box;
+  height: 90vh;
+  max-height: 700px;
+  min-height: 432px;
+  margin: 25vh auto 2em;
+  max-width: 400px;
+  box-sizing: border-box;
   padding: 0 1em;
-	overflow: visible;
+  overflow: visible;
 
-  display:flex;
+  display: flex;
   flex-direction: column-reverse;
   align-items: center;
   justify-content: flex-start;
 
-	color: var(--colGeneral);
-  font-family: var(--funnyFontFam);
+  color: var(--colGeneral);
 
   /* applies to all containers inside */
   text-align: center;
-	position: relative;
+  position: relative;
+}
+#panel::before {
+  content: "DRILL IT";
+  font-size: 2.6em;
+  position: absolute;
+  line-height: var(--buttonLineHeight);
+  font-family: var(--buttonFontFam);
+  font-weight: 500;
+  text-align: center;
+  padding: 0 1em;
+  margin: auto;
+  top: 0;
+  animation: flash 4s infinite ease-in-out;
 }
 
-#panel.hidden {
-	/*	at first, none of it is visible */
-/*	visibility:hidden;*/
-}
 #panel.shown {
-	animation: appear 0.7s ease-in-out;
+  animation: appear 0.7s ease-in-out;
 }
 @keyframes appear {
-	0% {opacity: 0;}
-	100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 #panel > div {
-	width: 100%;
+  width: 100%;
   border-radius: 5px;
-	/*outline: 1px solid black;*/
+  /*outline: 1px solid black;*/
 }
 
 #hud {
-	width:85% !important;
-	display:flex;
-	justify-content: space-between;
-	order: var(--hud_order);
+  width: 85% !important;
+  display: flex;
+  justify-content: space-between;
+  order: var(--hud_order);
 }
 
-#timer, #score {
-  height:2em;
-	min-width:5em;
+#timer,
+#score {
+  height: 2em;
+  min-width: 5em;
   width: 45% !important;
-	color: var(--colGeneral);
+  color: var(--colGeneral);
   background-color: var(--bgDisplays);
-	border: 1px solid var(--col-question-frame-border) !important;
+  border: 1px solid var(--col-question-frame-border) !important;
   box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
-	border-radius: 5px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	visibility: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: none;
 }
 #timer {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 #timer.running {
-	border: 1px solid var(--colTimer);
+  border: 1px solid var(--colTimer);
 }
-#timer p, #score p {
-  margin:0;
-	padding:0;
-	font-size:1.4em;
-	font-family: var(--buttonFontFam);
+#timer p,
+#score p {
+  margin: 0;
+  padding: 0;
+  font-size: 1.4em;
 }
 #timeValue.running {
-	color: var(--colTimer);
-	font-weight: bolder;
+  color: var(--colTimer);
+  font-weight: bolder;
 }
-
 
 #questionFrame {
-	position: relative;
-	display:flex;
-	flex-direction: column;
-	align-items: center;
-	order:var(--questionFrame_order);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  order: var(--questionFrame_order);
   height: 25%;
-	width: 85% !important;
-	margin-top: 10%;
-	margin-bottom: 0;
-	color: var(--colGeneral);
+  width: 85% !important;
+  margin-top: 10%;
+  margin-bottom: 0;
+  color: var(--colGeneral);
 
-  background-color: var(--bgDisplays);
-	border: 1px solid var(--col-challenge);
-	box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
-	padding-top: 1em;
-	padding-bottom: 1em;
+  background: var(--bg-question-frame);
+  border: 1px solid var(--col-challenge);
+  box-shadow: 0px 7px 5px -3px var(--colShadowDisplays);
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 #master {
-	margin-top: 0.5em !important;
-	margin-bottom: 1.5em !important;
+  margin-top: 0.5em !important;
+  margin-bottom: 1.5em !important;
 }
 
 #questionFrame > p {
-	position:absolute;
-	bottom: 15%;
-	left: 50%;
-	transform:translateX(-50%);
-	margin: 0;
-	padding: 0;
-	display: none;
-	font-size: var(--font-size-question);
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0;
+  display: none;
+  font-size: var(--font-size-question);
   line-height: 1em;
 }
 @media (min-width: 768px) and (min-height: 600px) {
-	#questionFrame p {
-		bottom: 20%;
-	}
+  #questionFrame p {
+    bottom: 20%;
+  }
 }
 
-#feedbackCorrect, #feedbackWrong {
-  position:absolute;
+#feedbackCorrect,
+#feedbackWrong {
+  position: absolute;
   bottom: 0;
-  visibility: hidden;
-	z-index: 100;
+  opacity: 0;
+  z-index: 100;
+  transition: opacity 0.1s ease-out;
 }
-#feedbackCorrect img, #feedbackWrong img {
-  height:2.3em;
-  width:2.3em;
+#feedbackCorrect.visible-feedback,
+#feedbackWrong.visible-feedback {
+  opacity: 1;
+}
+.emo {
+  height: 2.4em;
+  width: 2.6em;
+  font-size: 2em;
 }
 #feedbackCorrect {
   right: 0.25em;
@@ -282,26 +305,28 @@ body {
 }
 
 @media (min-width: 768px) and (min-height: 600px) {
-	#feedbackCorrect, #feedbackWrong {
-		bottom: 0;
-	}
-	#feedbackCorrect img, #feedbackWrong img {
-		height:3em;
-		width:3em;
-	}
-	#feedbackCorrect {
-  	right: 0.35em;
-	}
-	#feedbackWrong {
-		left: 0.15em;
-	}
+  #feedbackCorrect,
+  #feedbackWrong {
+    bottom: 0;
+  }
+  .emo {
+    height: 2.6em;
+    width: 2.3em;
+    font-size: 2.2em;
+  }
+  #feedbackCorrect {
+    right: 0.35em;
+  }
+  #feedbackWrong {
+    left: 0.15em;
+  }
 }
 
 #gameOver {
-	display:flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   width: 110% !important;
   height: 93%;
@@ -309,33 +334,34 @@ body {
   border: 1px solid black;
   border-radius: 10px;
   position: absolute;
-	top: 0.5em;
-	left: -5%;
+  top: 0.5em;
+  left: -5%;
 
-	visibility: hidden;
-	z-index: 200;
+  visibility: hidden;
+  z-index: 200;
 }
 #gameOver p {
   text-transform: uppercase;
-  font-family: var(--buttonFontFam);
   font-size: var(--font-size-game-over);
-	margin: 0.5em 0;
-	padding:0;
+  margin: 0.5em 0;
+  padding: 0;
 }
 #finalScore {
-  font-family: monospace;
   font-size: 1.1em;
 }
 
-
 .footer {
-	width: 100%;
-	height: 4em;
-	position: absolute;
-	bottom: 0;
-	color: hsl(0,0%,85%);
-	background-color: var(--col-challenge-dark);
-	border-top: 1px solid hsl(0, 0%, 55%);
-	z-index: 200;
-	text-align: center;
+  width: 100%;
+  height: 2.5em;
+  font-size: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  color: hsl(0, 0%, 85%);
+  background-color: var(--col-challenge-dark);
+  border-top: 1px solid hsl(0, 0%, 55%);
+  z-index: 200;
+  text-align: center;
 }

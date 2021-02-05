@@ -1,37 +1,30 @@
 .myButton {
-	border-radius: 10px;
-	display: flex !important;
-	align-items: center;
-	justify-content: center;
-	padding: 0;
+  border-radius: 10px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
-
 #master {
-  width:5em;
+  width: 5em;
   height: 2em;
-	margin: 0;
+  margin: 0;
   color: var(--colButtons);
   background-color: var(--bgButtons);
-	border: 1px solid hsla(0, 0%, 0.36%, 0.1);
+  border: 1px solid hsla(0, 0%, 0.36%, 0.1);
   box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
   font-size: var(--buttonFontSize);
   font-family: var(--buttonFontFam);
   font-weight: 500;
-	opacity: 1;
-  transition: transform 0.3s,
-							box-shadow 0.3s,
-							background-color 0.3s,
-							top 0.5s,
-							opacity 0.2s ease-in-out;
+  opacity: 1;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, top 0.5s,
+    opacity 0.2s ease-in-out;
 }
 #master.inGame {
-	transition: transform 0.3s,
-							box-shadow 0.3s,
-							background-color 0.3s,
-							top 0.5s,
-							opacity 0.5s ease-in-out 0.5s;
-	opacity: 0.5;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, top 0.5s,
+    opacity 0.5s ease-in-out 0.5s;
+  opacity: 0.5;
 }
 
 /* This element will have a .touchy or .clicky class attached, depending on
@@ -41,29 +34,29 @@
    See media queries for other cases.
  */
 #master.touchy.pressed-start {
-	transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s;
 
-	transform: scale(0.90);
-	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
-							0 0 0 1.2em var(--bgActiveButtons) inset !important;
+  transform: scale(0.9);
+  box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
+    0 0 0 1.2em var(--bgActiveButtons) inset !important;
 }
 #master.touchy.pressed-reset {
-	transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s;
 
-	transform: scale(0.90);
-	box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
-							0 0 0 1.2em var(--bgActiveButtons) inset !important;
+  transform: scale(0.9);
+  box-shadow: 0px 0px 5px -5px var(--colShadowStartButton),
+    0 0 0 1.2em var(--bgActiveButtons) inset !important;
 }
 /* lift the button*/
 #master.clicky:hover {
-	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
-	/*y offset compensates for translate and for increase in spread*/
-	cursor: pointer;
-	background-color: var(--col-bg-button-hover);
+  box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%);
+  /*y offset compensates for translate and for increase in spread*/
+  cursor: pointer;
+  background-color: var(--col-bg-button-hover);
 }
 #master.clicky.rise:hover {
-	/* translate lifts button off the background*/
-	transform: translate(0,-4px);
+  /* translate lifts button off the background*/
+  transform: translate(0, -4px);
 }
 
 /* style for button when actioned.
@@ -71,61 +64,73 @@
 #master.clicky.pressed-start,
 #master.clicky.pressed-reset,
 #master.clicky.pressed-start.rise:hover,
-#master.clicky.pressed-reset.rise:hover
-{
-	transition: transform 0.1s, box-shadow 0.1s;
+#master.clicky.pressed-reset.rise:hover {
+  transition: transform 0.1s, box-shadow 0.1s;
 
-	transform: scaleX(1.06) translate(0,-4px);
-	box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
-							0 0 0 1.1em var(--bgActiveButtons) inset !important;
+  transform: scaleX(1.06) translate(0, -4px);
+  box-shadow: 0px 19px 9px -9px hsl(72, 52%, 19%),
+    0 0 0 1.1em var(--bgActiveButtons) inset !important;
 }
-
 
 /* styling and behavior again-state is identical for clicky and touchy */
 #master.pressed-again {
-	position:relative;
-	animation: down 0.7s cubic-bezier(0.77, -0.62, 0, 1.13) 1;
+  position: relative;
+  animation: down 0.7s cubic-bezier(0.77, -0.62, 0, 1.13) 1;
 }
 
 #master.finishedState {
-	position:relative;
-	animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1,
-						 levitate 0.6s ease-in-out 0.5s infinite;
-	top: calc(-4* 1em);
+  position: relative;
+  animation: up 0.5s cubic-bezier(0.07, 1.61, 0.51, 1.35) 1,
+    levitate 0.6s ease-in-out 0.5s infinite;
+  top: calc(-4 * 1em);
 }
 #master.clicky.rise.finishedState:hover {
-	/* deactivate all */
-	transform: none;
+  /* deactivate all */
+  transform: none;
 }
 
 @keyframes up {
-	0% { top: 0;
-			 transform: scale(0.5);}
-	100% {top: calc(-4 * 1em);}
+  0% {
+    top: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    top: calc(-4 * 1em);
+  }
 }
 @keyframes down {
-	0% { top: calc(-4 * 1em);}
-	100% {top: 0;}
+  0% {
+    top: calc(-4 * 1em);
+  }
+  100% {
+    top: 0;
+  }
 }
 @keyframes levitate {
-	0% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }
-	50% { box-shadow: 0px 19px 9px -9px var(--colShadowStartButton-blurred);
-				transform: scaleX(1.007) translateY(-0.1em);}
-	100% { box-shadow: 0px 12px 5px -5px var(--colShadowStartButton); }
+  0% {
+    box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
+  }
+  50% {
+    box-shadow: 0px 19px 9px -9px var(--colShadowStartButton-blurred);
+    transform: scaleX(1.007) translateY(-0.1em);
+  }
+  100% {
+    box-shadow: 0px 12px 5px -5px var(--colShadowStartButton);
+  }
 }
 
 #gameModeButton {
-	width: 5em;
-	height: 1.6em;
-	color: var(--colGeneral);
+  width: 5em;
+  height: 1.6em;
+  color: var(--colGeneral);
   background-color: var(--bgDisplays);
   border: 1px solid hsla(0, 0%, 0.36%, 0.1);
-	box-shadow: 0px 5px 5px -3px var(--colShadowStartButton);
-	box-sizing: border-box;
+  box-sizing: border-box;
   font-size: var(--gameModeButtonFontSize);
-	padding-bottom: 0.2em;
   font-family: var(--funnyFontFam);
-  font-weight: 600;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
 
   transition: transform 0.1s, opacity 0.1s ease-out, box-shadow 0.1s;
 }
@@ -136,11 +141,13 @@
    active, focus and hover states.
  */
 #gameModeButton.pressed2 {
-	transform: scale(0.90);
-	opacity: 0.1;
-	box-shadow: none;
+  transform: scale(0.9);
+  opacity: 0.1;
+  box-shadow: none;
   /* makes the button "sink"*/
 }
 #gameModeButton:hover {
-	cursor:pointer;
+  cursor: pointer;
+  box-shadow: 0px 5px 5px -3px var(--colShadowStartButton);
+  /* elevates the button*/
 }

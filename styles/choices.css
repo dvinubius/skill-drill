@@ -1,35 +1,36 @@
 #choices {
-	order: var(--choiceFrame_order);
+  order: var(--choiceFrame_order);
   width: 85% !important;
-	display:flex;
-	flex-wrap: wrap;
-	justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 #choices div {
-	display:flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40% !important;
-	min-width: 80px;
+  min-width: 80px;
   height: 5em;
-	box-sizing: border-box;
-	border: 1px solid var(--col-border-choice-boxes);
-	margin: 1em .5em 0 .5em;
+  box-sizing: border-box;
+  border: 1px solid var(--col-border-choice-boxes);
+  margin: 1em 0.5em 0 0.5em;
   background-color: var(--bgChoiceBoxes);
-	border-radius: 5px;
+  border-radius: 5px;
   box-shadow: 0px 5px 5px -3px var(--colShadowChoiceBoxes);
-  transition: background-color 0.4s, box-shadow 0.05s, transform 0.05s ease-in-out;
+  transition: background-color 0.4s, box-shadow 0.05s,
+    transform 0.05s ease-in-out;
 }
 #choices p {
-	color: hsl(0, 0%, 30%);
-	margin: 0;
-	padding: 0;
-	font-size: var(--font-size-choices);
-  font-weight: bolder;
+  color: hsl(0, 0%, 3%);
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-choices);
 }
 /* will use this style for clicks*/
 #choices div:active {
-	transition: background-color 0.1s, box-shadow 0.05s, transform 0.05s ease-in-out;
+  transition: background-color 0.1s, box-shadow 0.05s,
+    transform 0.05s ease-in-out;
   background-color: var(--bgActiveChoiceBoxes);
   transform: scale(0.95);
   box-shadow: none;
@@ -37,8 +38,9 @@
 }
 /* will use this style for touches (preventDefault)*/
 #choices div.chosen {
-	transition: background-color 0.1s, box-shadow 0.05s, transform 0.05s ease-in-out;
-	background-color: var(--bgActiveChoiceBoxes);
+  transition: background-color 0.1s, box-shadow 0.05s,
+    transform 0.05s ease-in-out;
+  background-color: var(--bgActiveChoiceBoxes);
   transform: scale(0.95);
   box-shadow: none;
   /* makes the button "sink"*/
@@ -54,44 +56,44 @@ the css gets interpreted as usual: when the weight is the same,
 the latter declaration wins.
 */
 #choices div.clicky:hover {
-	cursor:pointer;
-	background-color: var(--bgActiveChoiceBoxes);
+  cursor: pointer;
+  background-color: var(--bgActiveChoiceBoxes);
 }
 #choices div.clicky.resetChoice:hover {
-	cursor: default;
-	background-color: var(--bgChoiceBoxes);
+  cursor: default;
+  background-color: var(--bgChoiceBoxes);
 }
 #choices div.touchy:hover {
-	cursor:default;
-	background-color: var(--bgChoiceBoxes);
+  cursor: default;
+  background-color: var(--bgChoiceBoxes);
 }
 #choices div.touchy.resetChoice:hover {
-	cursor: default;
-	background-color: var(--bgChoiceBoxes);
+  cursor: default;
+  background-color: var(--bgChoiceBoxes);
 }
 
 /* these 2 are needed for overriding the :hover styles	*/
 #choices div.touchy:active {
-	background-color: var(--bgActiveChoiceBoxes);
-	box-shadow: none;
-	/* makes the button "sink"*/
+  background-color: var(--bgActiveChoiceBoxes);
+  box-shadow: none;
+  /* makes the button "sink"*/
 }
 #choices div.touchy.resetChoice:active {
-	box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
-	transform: none;
+  box-shadow: 0px 5px 5px -3px hsl(0, 0%, 40%);
+  transform: none;
 }
 
-@media screen and (min-width: 576px) and (min-height: 500px){
-	#choices div {
-	  width: 43% !important;
-	  height: 5em;
-	}
+@media screen and (min-width: 576px) and (min-height: 500px) {
+  #choices div {
+    width: 43% !important;
+    height: 5em;
+  }
 }
 
-@media screen and (min-width: 768px) and (min-height: 600px){
-	#choices div {
-	  width: 40% !important;
-	  height: 7em;
-		border-radius: 10px;
-	}
+@media screen and (min-width: 768px) and (min-height: 600px) {
+  #choices div {
+    width: 40% !important;
+    height: 7em;
+    border-radius: 10px;
+  }
 }

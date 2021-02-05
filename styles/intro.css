@@ -1,128 +1,142 @@
 .intro {
   height: 130vh;
   min-height: 800px;
-	width: 100%;
-	margin: 0;
+  width: 100%;
+  margin: 0;
 }
-
 
 .intro-texts {
-	height: 75vh !important;
+  height: 75vh !important;
   min-height: 500px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 0;
 }
 .arrow {
-	align-self: center;
-	border: 1px solid var(--col-challenge);
-	border-radius: 50%;
-	height: 2.2em;
-	width: 2.2em;
-	padding: 0 !important;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 2em;
+  align-self: center;
+  border: 1px solid var(--col-challenge);
+  border-radius: 50%;
+  height: 2.2em;
+  width: 2.2em;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2em;
   margin-bottom: 2px;
   /* small margin for errors in drawing the rounded border. overlaps with
   container below and is interrupted at bottom  */
   text-align: center;
 }
 .arrow h3 {
-	color: var(--col-challenge);
-	font-family: var(--buttonFontFam);
-	margin: 0 !important;
-	padding: 0 !important;
+  color: var(--col-challenge);
+  font-family: var(--buttonFontFam);
+  margin: 0 !important;
+  padding: 0 !important;
   text-align: center;
-/*	font-weight: 200 !important;*/
+  /*	font-weight: 200 !important;*/
 }
 .arrow:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 .intro .call {
-	margin-bottom: 0;
-	color: var(--col-challenge);
-	font-weight: 600;
+  margin-bottom: 0;
+  color: var(--col-challenge);
+  font-weight: 600;
+}
+
+.heading {
+  font-size: 2.6em;
 }
 
 .intro h1,
 .intro h2 {
-	color: var(--col-intro);
+  color: var(--col-intro);
   line-height: var(--buttonLineHeight);
   font-family: var(--buttonFontFam);
-  font-weight: 600;
-	text-align: center;
-	padding: 0 1em;
-	margin: auto;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 1em;
+  margin: auto;
+}
+
+@keyframes flash {
+  0% {
+    color: var(--col-intro);
+  }
+  50% {
+    color: var(--col-challenge);
+  }
+  100% {
+    color: var(--col-intro);
+  }
 }
 
 .intro-indicators {
-	padding-top: 1em;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  padding-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 .intro-indicators h3 {
-	font-family: var(--buttonFontFam);
-	color: var(--col-challenge);
-/*  font-weight: 400;*/
-	text-align: center;
-	padding-top: 0;
-/*	padding-bottom: 1em; */
-	margin: 0 auto;
+  font-family: var(--buttonFontFam);
+  color: var(--col-challenge);
+  /*  font-weight: 400;*/
+  text-align: center;
+  padding-top: 0;
+  /*	padding-bottom: 1em; */
+  margin: 0 auto;
 }
 .intro-indicators h3.empty {
-	padding-bottom: 1em;
+  padding-bottom: 1em;
 }
 
 .arrow,
 .arrow h3 {
-	animation: point 1.5s ease-out infinite;
+  animation: point 1.5s ease-out infinite;
 }
 .dot1 {
-	animation: point 1.5s ease-out 0.05s infinite;
+  animation: point 1.5s ease-out 0.05s infinite;
 }
 .dot2 {
-	animation: point 1.5s ease-out 0.1s infinite;
+  animation: point 1.5s ease-out 0.1s infinite;
 }
 .dot3 {
-	animation: point 1.5s ease-out 0.15s infinite;
+  animation: point 1.5s ease-out 0.15s infinite;
 }
 .dot4 {
-	animation: point 1.5s ease-out 0.2s infinite;
+  animation: point 1.5s ease-out 0.2s infinite;
 }
 .dot5 {
-	animation: point 1.5s ease-out 0.25s infinite;
+  animation: point 1.5s ease-out 0.25s infinite;
 }
 .dot6 {
-	animation: point 1.5s ease-out 0.3s infinite;
+  animation: point 1.5s ease-out 0.3s infinite;
 }
 
 @keyframes point {
-	0% {
-		opacity: 1;
-		font-weight: 600 !important;
-	}
-	75% {
-		opacity: 1;
-		font-weight: 600 !important;
-	}
-	100% {
-		opacity: 0.3;
-		font-weight: 200 !important;
-	}
+  0% {
+    opacity: 1;
+    font-weight: 600 !important;
+  }
+  75% {
+    opacity: 1;
+    font-weight: 600 !important;
+  }
+  100% {
+    opacity: 0.3;
+    font-weight: 200 !important;
+  }
 }
 
-
 @media screen and (min-width: 768px) and (min-height: 600px) {
-	.intro{
-	  line-height: var(--buttonLineHeight);
-	  font-size: 1.3em;
-	}
+  .intro {
+    line-height: var(--buttonLineHeight);
+    font-size: 1.3em;
+  }
 }
 @media screen and (min-width: 768px) {
   .intro-texts {
